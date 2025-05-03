@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ferremax_frontend": {
+    "ferremax": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ferremax_frontend",
+            "outputPath": "dist/ferremax",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -59,10 +59,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ferremax_frontend:build:production"
+              "buildTarget": "ferremax:build:production"
             },
             "development": {
-              "buildTarget": "ferremax_frontend:build:development"
+              "buildTarget": "ferremax:build:development"
             }
           },
           "defaultConfiguration": "development"
