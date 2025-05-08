@@ -1,78 +1,84 @@
-<div class="inicio-container text-center py-8 px-4 pt-0">
-  <div id="carousel" class="relative w-full" data-te-carousel-init data-te-carousel-slide>
+<div class="inicio-container text-center py-8 px-4 pt-0 flex flex-col items-center">
+  <!--* Carousel -->
+  <div id="carousel" class="relative w-full mb-12" data-te-carousel-init data-te-carousel-slide>
     <div class="relative overflow-hidden w-full">
-      <div class="absolute inset-0 flex flex-col justify-center items-center text-white bg-black bg-opacity-50 z-10">
-        <h1 class="text-4xl font-bold mb-4">Bienvenido a Ferremas</h1>
-        <p class="text-lg">Tu aliado en herramientas y materiales de construcción.</p>
+      <!--* Overlay Text -->
+      <div class="absolute inset-0 flex flex-col justify-center items-center text-black z-10">
+        <h1 class="text-4xl font-bold mb-4 text-center">Bienvenido a Ferremas</h1>
+        <p class="text-lg text-center">Tu aliado en herramientas y materiales de construcción.</p>
       </div>
-      <div class="flex w-full">
-        <div class="w-full">
-          <img src="https://placehold.co/1200x400" class="block w-full" alt="Banner 1" />
-        </div>
-        <div class="w-full hidden" data-te-carousel-item>
-          <img src="https://placehold.co/1200x400?text=Slide+2" class="block w-full" alt="Banner 2" />
-        </div>
-        <div class="w-full hidden" data-te-carousel-item>
-          <img src="https://placehold.co/1200x400?text=Slide+3" class="block w-full" alt="Banner 3" />
-        </div>
+      <!--* Image -->
+      <div class="w-full">
+        <img [src]="images[currentImageIndex].src" [alt]="images[currentImageIndex].alt" class="block w-full h-auto" />
       </div>
     </div>
-    <button class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-20" data-te-carousel-prev>
+    <!--* Botón Anterior -->
+    <button
+      (click)="previousImage()"
+      class="absolute top-1/2 left-4 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full z-20 hover:bg-gray-700"
+      aria-label="Anterior"
+      >
       &larr;
     </button>
-    <button class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full z-20" data-te-carousel-next>
+    <!--* Botón Siguiente -->
+    <button
+      (click)="nextImage()"
+      class="absolute top-1/2 right-4 transform -translate-y-1/2 bg-gray-800 text-white p-3 rounded-full z-20 hover:bg-gray-700"
+      aria-label="Siguiente"
+      >
       &rarr;
     </button>
   </div>
-  <div class="inicio-destacados mt-10">
-    <h2 class="text-2xl font-semibold mb-6">Productos Destacados</h2>
-    <div class="productos-grid flex justify-center gap-6 flex-wrap">
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/200" alt="Producto 1" class="rounded-lg mb-4" />
+
+  <!--* Productos Destacados -->
+  <div class="inicio-destacados mt-16 mb-16">
+    <h2 class="text-2xl font-semibold mb-10">Productos Destacados</h2>
+    <div class="productos-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/200" alt="Producto 1" class="rounded-lg mb-4 mx-auto" />
         <h3 class="text-xl font-medium mb-2">Taladro Inalámbrico</h3>
         <p class="text-sm text-gray-600">Potencia y precisión para tus proyectos.</p>
       </div>
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/200" alt="Producto 2" class="rounded-lg mb-4" />
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/200" alt="Producto 2" class="rounded-lg mb-4 mx-auto" />
         <h3 class="text-xl font-medium mb-2">Cemento Portland</h3>
         <p class="text-sm text-gray-600">El mejor material para tus construcciones.</p>
       </div>
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/200" alt="Producto 3" class="rounded-lg mb-4" />
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/200" alt="Producto 3" class="rounded-lg mb-4 mx-auto" />
         <h3 class="text-xl font-medium mb-2">Escalera de Aluminio</h3>
         <p class="text-sm text-gray-600">Ligera y resistente, ideal para cualquier tarea.</p>
       </div>
     </div>
   </div>
 
-  <div class="inicio-destacados mt-10">
-    <h2 class="text-2xl font-semibold mb-6">Marcas asociadas</h2>
-    <div class="productos-grid flex justify-center gap-6 flex-wrap">
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/80" alt="Marca 1" class="rounded-lg mb-4" />
+  <!--* Marcas Asociadas -->
+  <div class="inicio-destacados mt-16 mb-16">
+    <h2 class="text-2xl font-semibold mb-10">Marcas Asociadas</h2>
+    <div class="productos-grid grid grid-cols-2 sm:grid-cols-4 gap-12">
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/80" alt="Marca 1" class="rounded-lg mx-auto" />
       </div>
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/80" alt="Marca 2" class="rounded-lg mb-4" />
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/80" alt="Marca 2" class="rounded-lg mx-auto" />
       </div>
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/80" alt="Marca 3" class="rounded-lg mb-4" />
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/80" alt="Marca 3" class="rounded-lg mx-auto" />
       </div>
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/80" alt="Marca 4" class="rounded-lg mb-4" />
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/80" alt="Marca 4" class="rounded-lg mx-auto" />
       </div>
-    </div>
-    <div class="productos-grid flex justify-center gap-6 flex-wrap">
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/80" alt="Marca 5" class="rounded-lg mb-4" />
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/80" alt="Marca 5" class="rounded-lg mx-auto" />
       </div>
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/80" alt="Marca 6" class="rounded-lg mb-4" />
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/80" alt="Marca 6" class="rounded-lg mx-auto" />
       </div>
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/80" alt="Marca 7" class="rounded-lg mb-4" />
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/80" alt="Marca 7" class="rounded-lg mx-auto" />
       </div>
-      <div class="producto-item max-w-xs text-center">
-        <img src="https://placehold.co/80" alt="Marca 8" class="rounded-lg mb-4" />
+      <div class="producto-item text-center">
+        <img src="https://placehold.co/80" alt="Marca 8" class="rounded-lg mx-auto" />
       </div>
     </div>
   </div>
