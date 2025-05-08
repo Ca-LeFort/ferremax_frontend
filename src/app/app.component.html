@@ -1,4 +1,4 @@
-<header class="bg-gray-800 text-white fixed w-full top-0 z-50">
+<header class="bg-gray-800 text-white fixed w-full top-0 z-50 shadow-md">
   <nav class="container mx-auto flex items-center justify-between px-4 py-3">
     <div class="flex items-center">
       <img src="https://placehold.co/512" alt="Logo" class="h-10">
@@ -6,14 +6,14 @@
     <button class="lg:hidden text-white" aria-label="Abrir menú" (click)="toggleMenu()">
       &#9776;
     </button>
-    <ul [class.hidden]="!isMenuOpen" class="lg:flex flex-col lg:flex-row lg:space-x-8 bg-gray-800 w-full lg:w-auto absolute lg:relative top-full left-0 p-4 lg:p-0">
+    <ul [class.hidden]="!isMenuOpen" class="lg:flex flex-col lg:flex-row lg:space-x-8 bg-gray-800 w-full lg:w-auto absolute lg:relative top-full left-0 p-4 lg:p-0 z-50">
       <li><a routerLink="/inicio" class="block px-4 py-2 text-white hover:text-orange-400">Inicio</a></li>
       <li><a routerLink="/productos" class="block px-4 py-2 text-white hover:text-orange-400">Productos</a></li>
       <li><a routerLink="/acerca-de" class="block px-4 py-2 text-white hover:text-orange-400">Acerca de</a></li>
       <li><a routerLink="/contacto" class="block px-4 py-2 text-white hover:text-orange-400">Contacto</a></li>
       <li class="relative">
         <button (click)="toggleDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">Cuenta</button>
-        <ul [class.hidden]="!isDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg">
+        <ul [class.hidden]="!isDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg z-50">
           <li><a routerLink="/login" class="block px-4 py-2 text-white hover:bg-gray-600">Iniciar Sesión</a></li>
           <li><a routerLink="/registro" class="block px-4 py-2 text-white hover:bg-gray-600">Registrarse</a></li>
         </ul>
@@ -22,12 +22,12 @@
   </nav>
 </header>
 
-<section class="pt-16">
+<section class="pt-[80px]">
   <router-outlet></router-outlet>
 </section>
 
 <footer class="bg-gray-900 text-gray-200">
-  <div class="container mx-auto py-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+  <div class="container mx-auto py-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
     <div>
       <h3 class="text-xl font-bold mb-2">Ferremas</h3>
       <p class="text-sm">Tu aliado en herramientas y materiales de construcción. Ofrecemos productos de calidad para tus proyectos grandes y pequeños.</p>
