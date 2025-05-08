@@ -9,7 +9,7 @@
       </div>
       <!--* Image -->
       <div class="w-full">
-        <img [src]="images[currentImageIndex].src" [alt]="images[currentImageIndex].alt" class="block w-full h-auto" />
+        <img [@fadeAnimation]="currentImageIndex" [src]="images[currentImageIndex].src" [alt]="images[currentImageIndex].alt" class="block w-full h-auto" />
       </div>
     </div>
     <!--* Botón Anterior -->

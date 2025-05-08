@@ -5,7 +5,17 @@ import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
   selector: 'app-inicio',
   templateUrl: './inicio.component.html',
-  styleUrls: ['./inicio.component.css']
+  styleUrls: ['./inicio.component.css'],
+  animations: [
+    trigger('fadeAnimation', [
+      transition('* => *', [
+        //* Inicia transición con opacidad en 0
+        style({opacity: 0}),
+        //* Anima hasta opacidad 1 en 500ms con un efecto ease-in-out
+        animate('500ms ease-in-out', style({opacity: 1}))
+      ]),
+    ]),
+  ],
 })
 export class InicioComponent implements OnInit, OnDestroy {
 
