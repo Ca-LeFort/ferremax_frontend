@@ -14,8 +14,8 @@
       <li class="relative">
         <button (click)="toggleDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">Cuenta</button>
         <ul [class.hidden]="!isDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg z-50">
-          <li><a routerLink="/login" class="block px-4 py-2 text-white hover:bg-gray-600">Iniciar Sesión</a></li>
-          <li><a routerLink="/registro" class="block px-4 py-2 text-white hover:bg-gray-600">Registrarse</a></li>
+          <li><a routerLink="/auth/login" class="block px-4 py-2 text-white hover:bg-gray-600">Iniciar Sesión</a></li>
+          <li><a routerLink="/auth/register" class="block px-4 py-2 text-white hover:bg-gray-600">Registrarse</a></li>
         </ul>
       </li>
     </ul>
