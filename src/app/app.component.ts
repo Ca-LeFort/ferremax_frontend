@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title: string = 'ferremax';
+  title: string = 'ferremas';
   isMenuOpen: boolean = false;
   isDropdownOpen = false;
 
