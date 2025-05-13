@@ -1,13 +1,11 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { ClienteService } from '../../../services/cliente.service';
-import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CommonModule } from '@angular/common';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
-  imports: [FormsModule, ReactiveFormsModule, SweetAlert2Module, CommonModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
@@ -64,22 +62,10 @@ export class RegisterComponent {
     console.log(datosCliente);
     this.clienteService.registrarCliente(datosCliente).subscribe({
       next: (Response) => {
-        Swal.fire({
-          title: '¡Éxito!',
-          text: 'Has sido registrado, bienvenido a Ferremas',
-          icon: 'success',
-          confirmButtonText: 'Aceptar'
-        }).then(() => {
-          console.log(Response);
-        });
+        console.log('login');
       },
       error: (error) => {
-        Swal.fire({
-          title: '¡Error!',
-          text: error.message,
-          icon: 'error',
-          confirmButtonText: 'Aceptar'
-        });
+        console.log('error');
       }
     })
   }
