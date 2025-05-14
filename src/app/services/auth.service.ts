@@ -6,7 +6,7 @@ import { catchError, Observable, throwError } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  
+
   private apiUrl = 'https://localhost:7007/api/auth';
 
   constructor(private http: HttpClient) { }
@@ -21,5 +21,5 @@ export class AuthService {
       })
     );
   }
-  
+
 }

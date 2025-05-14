@@ -24,7 +24,7 @@
             <small class="text-red-500 text-sm mt-1 italic">Ingresa el RUT</small>
             } @else if (registerForm.controls.rut.hasError('pattern')) {
             <small class="text-red-500 text-sm mt-1 italic">Formato RUT NO válido</small>
-            } @else if (registerForm.controls.rut.hasError('isValid')) {
+            } @else if (registerForm.controls.rut.hasError('invalidRut')) {
             <small class="text-red-500 text-sm mt-1 italic">RUT inválido</small>
             }
         </div>
