@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { AlertService } from '../../../services/alert.service'; //* Ahora las alertas son un servicio que se importa facil
+import { AlertService } from '../../../services/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +22,7 @@ export class LoginComponent {
   Token = '';
   Rol = '';
 
-  constructor(private authService: AuthService, private alert: AlertService) {}
+  constructor(private authService: AuthService, private alert: AlertService, private router: Router) {}
 
   //* Método para manejar el envío del formulario
   onSubmit() {
@@ -40,6 +41,9 @@ export class LoginComponent {
       localStorage.setItem('rol', response.logRol);
       this.Token = localStorage.getItem('token') || '';
       this.Rol = localStorage.getItem('rol') || '';
+
+      //* Redirigir al usuario a la página de inicio
+      this.router.navigate(['/inicio']);
     });
   }
 
