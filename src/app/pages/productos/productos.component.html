@@ -1,120 +1,27 @@
 <div class="bg-gray-100 p-6">
-  <!-- Categorías Destacadas -->
-  <div class="mb-8">
-    <h2 class="text-2xl font-semibold mb-4">Categorías Destacadas</h2>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
-      <a routerLink="/categorias/herramientas" class="group flex flex-col items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-        <img
-          src="https://placehold.co/100x100"
-          alt="Herramientas"
-          class="mb-2 group-hover:scale-105 transition-transform"
-        />
-        <span class="text-sm font-medium">Herramientas</span>
-      </a>
-      <a routerLink="/categorias/construccion" class="group flex flex-col items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-        <img
-          src="https://placehold.co/100x100"
-          alt="Construcción"
-          class="mb-2 group-hover:scale-105 transition-transform"
-        />
-        <span class="text-sm font-medium">Construcción</span>
-      </a>
-      <a routerLink="/categorias/electricidad" class="group flex flex-col items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-        <img
-          src="https://placehold.co/100x100"
-          alt="Electricidad"
-          class="mb-2 group-hover:scale-105 transition-transform"
-        />
-        <span class="text-sm font-medium">Electricidad</span>
-      </a>
-      <a routerLink="/categorias/jardineria" class="group flex flex-col items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-        <img
-          src="https://placehold.co/100x100"
-          alt="Jardinería"
-          class="mb-2 group-hover:scale-105 transition-transform"
-        />
-        <span class="text-sm font-medium">Jardinería</span>
-      </a>
-      <a routerLink="/categorias/pinturas" class="group flex flex-col items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-        <img
-          src="https://placehold.co/100x100"
-          alt="Pinturas"
-          class="mb-2 group-hover:scale-105 transition-transform"
-        />
-        <span class="text-sm font-medium">Pinturas</span>
-      </a>
-      <a routerLink="/categorias/ceramicas" class="group flex flex-col items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-        <img
-          src="https://placehold.co/100x100"
-          alt="Cerámicas"
-          class="mb-2 group-hover:scale-105 transition-transform"
-        />
-        <span class="text-sm font-medium">Cerámicas</span>
-      </a>
-    </div>
-  </div>
-
-  <!-- Productos Destacados -->
-  <div class="mb-8">
-    <h2 class="text-2xl font-semibold mb-4">Productos Destacados</h2>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-      <!-- Producto -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition">
-        <img
-          src="https://placehold.co/300x200"
-          alt="Taladro inalámbrico"
-          class="rounded-t-lg w-full h-40 object-cover"
-        />
-        <div class="p-4">
-          <h3 class="text-sm font-medium mb-2">Taladro Inalámbrico</h3>
-          <p class="text-lg font-bold text-gray-800 mb-4">$89.99</p>
-          <button
-            class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Agregar al Carrito
-          </button>
-        </div>
-      </div>
-
-      <!-- Repetir Productos -->
-      <div class="bg-white rounded-lg shadow hover:shadow-lg transition">
-        <img
-          src="https://placehold.co/300x200"
-          alt="Caja de herramientas"
-          class="rounded-t-lg w-full h-40 object-cover"
-        />
-        <div class="p-4">
-          <h3 class="text-sm font-medium mb-2">Caja de Herramientas</h3>
-          <p class="text-lg font-bold text-gray-800 mb-4">$49.99</p>
-          <button
-            class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
-          >
-            Agregar al Carrito
-          </button>
-        </div>
-      </div>
-
-      <!-- Repetir más productos -->
-    </div>
-  </div>
-
-  <!-- Ofertas Especiales -->
   <div>
-    <h2 class="text-2xl font-semibold mb-4">Ofertas Especiales</h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="flex items-center bg-white p-4 rounded-lg shadow hover:shadow-lg transition">
-        <img
-          src="https://placehold.co/150x150"
-          alt="Oferta Taladro"
-          class="w-24 h-24 rounded-lg object-cover mr-4"
-        />
-        <div>
-          <h3 class="text-sm font-medium mb-2">Taladro en Oferta</h3>
-          <p class="text-sm text-gray-600 line-through">$100.00</p>
-          <p class="text-lg font-bold text-orange-500">$75.00</p>
+    <h2 class="text-2xl font-semibold mb-4">Todos los Productos</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      @for (producto of productos; track producto.nombre) {
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition">
+          <img
+            [src]="producto.imagen_url || 'https://placehold.co/300x200'"
+            [alt]="producto.nombre"
+            class="rounded-t-lg w-full h-40 object-cover"
+          />
+          <div class="p-4">
+            <h3 class="text-sm font-medium mb-2">{{ producto.nombre }}</h3>
+            <p class="text-lg font-bold text-gray-800 mb-4">${{ producto.precio }}</p>
+            <button
+              class="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-4 rounded"
+            >
+              Agregar al Carrito
+            </button>
+          </div>
         </div>
-      </div>
-      <!-- Repetir Ofertas -->
+      } @empty {
+        <div class="col-span-full text-center text-gray-500">No hay productos disponibles.</div>
+      }
     </div>
   </div>
 </div>
