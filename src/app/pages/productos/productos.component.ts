@@ -21,7 +21,7 @@ export class ProductosComponent implements OnInit {
         this.productos = data;
       },
       error: (err) => {
-        console.error('Error al obtener los productos:', err);
+        console.error('Error al obtener los productos:', err.error.detail);
       },
     });
   }
