@@ -37,7 +37,6 @@ export class InicioComponent implements OnInit, OnDestroy {
     //* Activar slide automático cada 5 segundos (5000 ms)
     this.autoSlideSubscription = interval(5000).subscribe(() => {
       this.nextImage();
-      console.log("Cambio de imagen por intervalo")
     });
   }
 
@@ -49,12 +48,10 @@ export class InicioComponent implements OnInit, OnDestroy {
   //* Avanza a la siguiente imagen, volviendo al inicio al finalizar el arreglo
   nextImage(): void {
     this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
-    console.log("Cambio de imagen siguiente");
   }
 
   //* Retrocede a la imagen anterior, regresando al último elemento si es la primera imagen
   previousImage(): void {
     this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length;
-    console.log("Cambio de imagen anterior");
   }
 }
