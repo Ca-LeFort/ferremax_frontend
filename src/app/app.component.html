@@ -14,7 +14,11 @@
         <li><a routerLink="/contacto" class="block px-4 py-2 text-white hover:text-orange-400">Contacto</a></li>
         <li class="relative">
           @if (isLogged) {
-            <span class="block px-4 py-2 text-white">Hola, {{ user.nombre }}</span> <!-- Muestra el nombre del usuario -->
+            <button (click)="toggleUserDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">{{ user.rol }}</button>
+            <ul [class.hidden]="!isUserDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg z-50">
+              <li><a routerLink="/account/profile" class="block px-4 py-2 text-white hover:bg-gray-600">Perfil</a></li>
+              <li><a routerLink="/auth/logout" class="block px-4 py-2 text-white hover:bg-gray-600">Cerrar Sesión</a></li>
+            </ul>
           } @else {
             <button (click)="toggleDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">Cuenta</button>
             <ul [class.hidden]="!isDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg z-50">

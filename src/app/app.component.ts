@@ -13,6 +13,7 @@ export class AppComponent implements OnInit {
   title: string = 'ferremas';
   isMenuOpen: boolean = false;
   isDropdownOpen = false;
+  isUserDropdownOpen = false;
   isLogged = false; //* Variable para verificar si el usuario está logueado
   user: any = null; //* Variable para almacenar la información del usuario
 
@@ -28,6 +29,10 @@ export class AppComponent implements OnInit {
 
   toggleDropdown() {
     this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  toggleUserDropdown(){
+    this.isUserDropdownOpen = !this.isUserDropdownOpen;
   }
 
   private checkLoginStatus() {
