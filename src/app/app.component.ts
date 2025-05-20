@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { RouterModule } from '@angular/router';
+import { RouterOutlet , RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
 @Component({
@@ -17,7 +16,7 @@ export class AppComponent implements OnInit {
   isLogged = false; //* Variable para verificar si el usuario está logueado
   user: any = null; //* Variable para almacenar la información del usuario
 
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   ngOnInit(): void {
     this.checkLoginStatus(); //* Verificar el estado de inicio de sesión al iniciar
