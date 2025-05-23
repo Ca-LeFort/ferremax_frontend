@@ -32,54 +32,88 @@
 
   <!--* Productos Destacados -->
   <div class="inicio-destacados mt-16 mb-16">
-    <h2 class="text-2xl font-semibold mb-10">Productos Destacados</h2>
-    <div class="productos-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/200" alt="Producto 1" class="rounded-lg mb-4 mx-auto" />
-        <h3 class="text-xl font-medium mb-2">Taladro Inalámbrico</h3>
-        <p class="text-sm text-gray-600">Potencia y precisión para tus proyectos.</p>
-      </div>
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/200" alt="Producto 2" class="rounded-lg mb-4 mx-auto" />
-        <h3 class="text-xl font-medium mb-2">Cemento Portland</h3>
-        <p class="text-sm text-gray-600">El mejor material para tus construcciones.</p>
-      </div>
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/200" alt="Producto 3" class="rounded-lg mb-4 mx-auto" />
-        <h3 class="text-xl font-medium mb-2">Escalera de Aluminio</h3>
-        <p class="text-sm text-gray-600">Ligera y resistente, ideal para cualquier tarea.</p>
-      </div>
+    <h2 class="text-xl font-semibold mb-6 text-center">Productos Destacados</h2>
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+      @for (producto of productosDestacados; track producto.nombre) {
+        <div class="bg-white rounded-lg shadow hover:shadow-md transition text-center">
+          <div class="aspect-w-1 aspect-h-1">
+            <img
+              [src]="producto.imagen_url || 'https://placehold.co/300x300'"
+              [alt]="producto.nombre"
+              class="rounded-t-lg mx-auto mt-4 w-28 h-28 object-cover"
+            />
+          </div>
+          <div class="p-4">
+            <h3 class="text-sm font-medium mb-1 truncate">{{ producto.nombre }}</h3>
+            <p class="text-xs font-bold text-gray-800 mb-2">${{ producto.precio }}</p>
+            <button
+              class="w-full bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold py-1 px-2 rounded"
+            >
+              Agregar
+            </button>
+          </div>
+        </div>
+      } @empty {
+        <div class="col-span-full text-center text-gray-500">No hay productos disponibles.</div>
+      }
     </div>
   </div>
 
   <!--* Marcas Asociadas -->
   <div class="inicio-destacados mt-16 mb-16">
     <h2 class="text-2xl font-semibold mb-10">Marcas Asociadas</h2>
-    <div class="productos-grid grid grid-cols-2 sm:grid-cols-4 gap-12">
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/80" alt="Marca 1" class="rounded-lg mx-auto" />
-      </div>
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/80" alt="Marca 2" class="rounded-lg mx-auto" />
-      </div>
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/80" alt="Marca 3" class="rounded-lg mx-auto" />
-      </div>
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/80" alt="Marca 4" class="rounded-lg mx-auto" />
-      </div>
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/80" alt="Marca 5" class="rounded-lg mx-auto" />
-      </div>
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/80" alt="Marca 6" class="rounded-lg mx-auto" />
-      </div>
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/80" alt="Marca 7" class="rounded-lg mx-auto" />
-      </div>
-      <div class="producto-item text-center">
-        <img src="https://placehold.co/80" alt="Marca 8" class="rounded-lg mx-auto" />
-      </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+      @for (marca of paginatedMarcas; track marca.nombre) {
+        <div class="bg-white rounded-lg shadow hover:shadow-lg transition text-center">
+          <img
+            [src]="'https://placehold.co/80'"
+            [alt]="marca.nombre"
+            class="rounded-t-lg mx-auto mt-4"
+          />
+          <div class="p-4">
+            <h3 class="text-sm font-medium mb-2">{{ marca.nombre }}</h3>
+          </div>
+        </div>
+      } @empty {
+        <div class="col-span-full text-center text-gray-500">No hay marcas disponibles.</div>
+      }
+    </div>
+
+    <div class="flex justify-center mt-4 space-x-2">
+      @for (i of pagesArray; track i) {
+        <button
+          (click)="setPage(i)"
+          [class.bg-blue-600]="currentPage === i"
+          [class.bg-gray-300]="currentPage !== i"
+          class="w-3 h-3 rounded-full focus:outline-none"
+          [attr.aria-label]="'Ir a página ' + (i + 1)"
+        ></button>
+      }
+    </div>
+
+    <div class="flex justify-center items-center mt-8 space-x-4">
+      <!-- Botón para página anterior -->
+      <button
+        (click)="previousPage()"
+        class="p-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-full"
+        [disabled]="currentPage === 0"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <!-- Botón para página siguiente -->
+      <button
+        (click)="nextPage()"
+        class="p-2 bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold rounded-full"
+        [disabled]="(currentPage + 1) * itemsPerPage >= marcas.length"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
     </div>
   </div>
+
 </div>

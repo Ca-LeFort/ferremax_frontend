@@ -1,6 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription, interval } from 'rxjs';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { MarcasService } from '../../services/marcas.service';
+import { ProductosService } from '../../services/productos.service';
 
 @Component({
   selector: 'app-inicio',
@@ -9,49 +11,104 @@ import { trigger, transition, style, animate } from '@angular/animations';
   animations: [
     trigger('fadeAnimation', [
       transition('* => *', [
-        //* Inicia transición con opacidad en 0
-        style({opacity: 0}),
-        //* Anima hasta opacidad 1 en 500ms con un efecto ease-in-out
-        animate('500ms ease-in-out', style({opacity: 1}))
+        style({ opacity: 0 }),
+        animate('500ms ease-in-out', style({ opacity: 1 }))
       ]),
     ]),
   ],
 })
 export class InicioComponent implements OnInit, OnDestroy {
+  marcas: any[] = [];
+  currentPage: number = 0;
+  itemsPerPage: number = 4;
+  productos: any[] = [];
 
-  //* Arreglo de imágenes del carrusel
-  //TODO: Estas imagenes deben salir de la base de datos
+  constructor(private marcasService: MarcasService, private productosService: ProductosService) {}
+
   images = [
     { src: 'https://placehold.co/1920x500?text=Banner+1', alt: 'Banner 1' },
     { src: 'https://placehold.co/1920x500?text=Banner+2', alt: 'Banner 2' },
-    { src: 'https://placehold.co/1920x500?text=Banner+3', alt: 'Banner 3' }
+    { src: 'https://placehold.co/1920x500?text=Banner+3', alt: 'Banner 3' },
   ];
 
-  //* Índice de la imagen actualmente mostrada
   currentImageIndex = 0;
-
-  //* Subscripción para el slide automático (opcional)
   autoSlideSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    //* Activar slide automático cada 5 segundos (5000 ms)
     this.autoSlideSubscription = interval(5000).subscribe(() => {
       this.nextImage();
     });
+
+    this.obtenerMarcas();
+    this.obtenerProductos();
   }
 
   ngOnDestroy(): void {
-    //* Cancelar la subscripción al destruir el componente
     this.autoSlideSubscription.unsubscribe();
   }
 
-  //* Avanza a la siguiente imagen, volviendo al inicio al finalizar el arreglo
   nextImage(): void {
     this.currentImageIndex = (this.currentImageIndex + 1) % this.images.length;
   }
 
-  //* Retrocede a la imagen anterior, regresando al último elemento si es la primera imagen
   previousImage(): void {
     this.currentImageIndex = (this.currentImageIndex - 1 + this.images.length) % this.images.length;
+  }
+
+  obtenerMarcas(): void {
+    this.marcasService.getMarcas().subscribe({
+      next: (data) => {
+        this.marcas = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener las marcas:', err.error.detail);
+      },
+    });
+  }
+
+  get paginatedMarcas(): any[] {
+    const startIndex = this.currentPage * this.itemsPerPage;
+    return this.marcas.slice(startIndex, startIndex + this.itemsPerPage);
+  }
+
+  get pagesArray(): number[] {
+    return Array.from({ length: this.totalPages() }, (_, i) => i);
+  }
+
+  nextPage(): void {
+    if ((this.currentPage + 1) * this.itemsPerPage < this.marcas.length) {
+      this.currentPage++;
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+    }
+  }
+
+  totalPages(): number {
+    return Math.ceil(this.marcas.length / this.itemsPerPage);
+  }
+
+  setPage(page: number): void {
+    if (page >= 0 && page < this.totalPages()) {
+      this.currentPage = page;
+    }
+  }
+
+  obtenerProductos(): void {
+    this.productosService.getProductos().subscribe({
+      next: (data) => {
+        this.productos = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener los productos:', err.error.detail);
+      },
+    });
+  }
+
+  get productosDestacados(): any[] {
+    return this.productos.slice(0, 3); // Retorna los primeros 3 productos
   }
 }
