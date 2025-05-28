@@ -38,4 +38,8 @@ export class ClienteService {
   getEstCivil() {
     return this.http.get<{ Id: number; Nombre: string }[]>(`${this.apiTraduccion}/estado-civil`);
   }
+
+  getClientes(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
 }

@@ -85,23 +85,25 @@
        <div class="grid grid-cols-3 gap-4 mb-4">
             <!-- Show employee list -->
             <div class="mt-8">
-               <h2 class="text-xl font-bold mb-4">Lista de Pagos</h2>
+               <h2 class="text-xl font-bold mb-4">Mensajes de Contacto</h2>
                   <table class="min-w-full bg-white">
                      <thead>
                         <tr>
                            <th class="py-2 px-4 border-b">ID</th>
-                           <th class="py-2 px-4 border-b">Pedido</th>
+                           <th class="py-2 px-4 border-b">Nombre</th>
+                           <th class="py-2 px-4 border-b">Correo</th>
                            <th class="py-2 px-4 border-b">Fecha</th>
-                           <th class="py-2 px-4 border-b">Monto</th>
+                           <th class="py-2 px-4 border-b">Mensaje</th>
                            <!-- Add more columns as needed -->
                         </tr>
                      </thead>
                      <tbody>
-                        <tr *ngFor="let pago of pagos">
-                           <td class="py-2 px-4 border-b">{{ pago.id }}</td>
-                           <td class="py-2 px-4 border-b">{{ pago.clienteNombre }}</td>
-                           <td class="py-2 px-4 border-b">{{ pago.fecha | date }}</td>
-                           <td class="py-2 px-4 border-b">{{ pago.total | currency }}</td>
+                        <tr *ngFor="let mensaje of mensajes">
+                           <td class="py-2 px-4 border-b">{{ mensaje.id }}</td>
+                           <td class="py-2 px-4 border-b">{{ mensaje.nombre }}</td>
+                           <td class="py-2 px-4 border-b">{{ mensaje.correo }}</td>
+                           <td class="py-2 px-4 border-b">{{ mensaje.contenido }}</td>
+                           <td class="py-2 px-4 border-b">{{ mensaje.fecha | date }}</td>
                            <!-- Add more fields as needed -->
                         </tr>
                      </tbody>
