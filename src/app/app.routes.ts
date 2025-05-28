@@ -10,6 +10,7 @@ import { ClienteComponent } from './pages/admin/cliente/cliente.component';
 import { EmpleadoComponent } from './pages/admin/empleado/empleado.component';
 import { PagoComponent } from './pages/admin/pago/pago.component';
 import { PedidoComponent } from './pages/admin/pedido/pedido.component';
+import { MensajeComponent } from './pages/admin/mensaje/mensaje.component';
 
 export const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -23,6 +24,7 @@ export const routes: Routes = [
   { path: 'empleado', component: EmpleadoComponent},
   { path: 'pago', component: PagoComponent},
   { path: 'pedido', component: PedidoComponent},
+  { path: 'mensaje', component: MensajeComponent},
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
   { path: '**', redirectTo: 'inicio' },
 ];

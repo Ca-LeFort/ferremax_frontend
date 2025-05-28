@@ -1,11 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ClienteService } from '../../../services/cliente.service';
 
 @Component({
   selector: 'app-cliente',
-  imports: [],
   templateUrl: './cliente.component.html',
-  styleUrl: './cliente.component.css'
+  styleUrls: ['./cliente.component.css']
 })
-export class ClienteComponent {
+export class ClienteComponent implements OnInit {
+  clientes: any[] = [];
 
+  constructor(private clienteService: ClienteService) {}
+
+  ngOnInit() {
+    this.clienteService.getClientes().subscribe(data => {
+      this.clientes = data;
+    });
+  }
 }
