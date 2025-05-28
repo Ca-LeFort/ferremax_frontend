@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet , RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
 
+
+
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet, RouterModule],
@@ -16,6 +18,7 @@ export class AppComponent implements OnInit {
   isLogged = false; //* Variable para verificar si el usuario está logueado
   user: any = null; //* Variable para almacenar la información del usuario
 
+  
   constructor(private readonly authService: AuthService) {}
 
   ngOnInit(): void {
