@@ -13,4 +13,16 @@ export class PagoService {
   getPagos(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
+
+  createPago(pago: any): Observable<any> {
+    return this.http.post(this.apiUrl, pago);
+  }
+
+  updatePago(pago: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/${pago.id}`, pago);
+  }
+
+  deletePago(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${id}`);
+  }
 }
