@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { EmpleadoService } from '../../../services/empleado.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-empleado',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './empleado.component.html',
   styleUrl: './empleado.component.css'
 })
@@ -16,10 +17,20 @@ export class EmpleadoComponent implements OnInit {
   constructor(private empleadoService: EmpleadoService) {}
 
   ngOnInit(){
-    this.empleadoService.getEmpleados().subscribe((data: any[]) => {
-      this.empleados = data;
-    })
+    this.obtenerEmpleados();
   }
+
+  obtenerEmpleados(): void {
+    this.empleadoService.getEmpleados().subscribe({
+        next: (data) => {
+            this.empleados = data;
+            console.log('Empleados obtenidos:', this.empleados); // Registro de los datos recibidos.
+        },
+        error: (err) => {
+            console.error('Error al obtener los empleados:', err.error?.detail || err.message);
+        },
+    });
+}
 
   editEmpleado(empleado: any) {
     this.selectedEmpleado = { ...empleado };
