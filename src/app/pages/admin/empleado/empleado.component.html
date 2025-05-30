@@ -7,17 +7,27 @@
         <table class="min-w-full bg-white">
           <thead>
             <tr>
-              <th class="py-2 px-4 border-b">ID</th>
-              <th class="py-2 px-4 border-b">Nombre</th>
-              <th class="py-2 px-4 border-b">Apellido</th>
+              <th class="py-2 px-4 border-b">Rut</th>
+              <th class="py-2 px-4 border-b">Primer nombre</th>
+              <th class="py-2 px-4 border-b">Segundo nombre</th>
+              <th class="py-2 px-4 border-b">Primer apellido</th>
+              <th class="py-2 px-4 border-b">Segundo apellido</th>
+              <th class="py-2 px-4 border-b">Email</th>
+              <th class="py-2 px-4 border-b">Contraseña</th>
+              <th class="py-2 px-4 border-b">Telefono</th>
               <th class="py-2 px-4 border-b">Dirección</th>
-              <th class="py-2 px-4 border-b">Correo</th>
+              <th class="py-2 px-4 border-b">Fecha nacimiento</th>
+              <th class="py-2 px-4 border-b">Fecha contrato</th>
+              <th class="py-2 px-4 border-b">Género</th>
+              <th class="py-2 px-4 border-b">Estado civil</th>
+              <th class="py-2 px-4 border-b">Comuna</th>
+              <th class="py-2 px-4 border-b">Tipo empleado</th>
               <!-- Add more columns as needed -->
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let empleado of empleados">
-              <td class="py-2 px-4 border-b">{{ empleado.id }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.rutempleado }}</td>
               <td class="py-2 px-4 border-b">{{ empleado.nombre }}</td>
               <td class="py-2 px-4 border-b">{{ empleado.correo }}</td>
             </tr>
