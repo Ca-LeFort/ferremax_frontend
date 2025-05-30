@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class EmpleadoService {
-  private apiUrl = 'https://localhost:7007/api/empleados'; // Cambia la URL según tu backend
+  private apiUrl = 'https://localhost:7007/api/empleados';
 
   constructor(private http: HttpClient) {}
 
-  getEmpleados(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getEmpleados(): Observable<any> {
+    return this.http.get(this.apiUrl);
   }
 
   createEmpleado(empleado: any): Observable<any> {
