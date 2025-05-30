@@ -11,6 +11,7 @@ import { EmpleadoComponent } from './pages/admin/empleado/empleado.component';
 import { PagoComponent } from './pages/admin/pago/pago.component';
 import { PedidoComponent } from './pages/admin/pedido/pedido.component';
 import { MensajeComponent } from './pages/admin/mensaje/mensaje.component';
+import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -19,12 +20,22 @@ export const routes: Routes = [
   { path: 'contacto', component: ContactoComponent },
   { path: 'auth/login', component: LoginComponent, title: 'Iniciar sesión - Ferremas' },
   { path: 'auth/register', component: RegisterComponent, title: 'Registrar - Ferremas'},
-  { path: 'admin', component: AdminComponent },
-  { path: 'cliente', component: ClienteComponent},
-  { path: 'empleado', component: EmpleadoComponent},
-  { path: 'pago', component: PagoComponent},
-  { path: 'pedido', component: PedidoComponent},
-  { path: 'mensaje', component: MensajeComponent},
+
+  // Ruta para Admin con rutas hijas
+  {
+    path: 'admin',
+    component: AdminComponent, // Este sería un componente que actúa como layout para las rutas hijas
+    children: [
+      { path: 'dashboard', component: DashboardComponent},
+      { path: 'cliente', component: ClienteComponent },
+      { path: 'empleado', component: EmpleadoComponent },
+      { path: 'pago', component: PagoComponent },
+      { path: 'pedido', component: PedidoComponent },
+      { path: 'mensaje', component: MensajeComponent },
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Redirigir a una ruta hija por defecto
+    ],
+  },
+
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },
-  { path: '**', redirectTo: 'inicio' },
+  { path: '**', redirectTo: 'inicio' }, // Ruta wildcard para manejar rutas no encontradas
 ];

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { RouterOutlet , RouterModule } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { FormsModule } from '@angular/forms';
+import { AdminComponent } from './pages/admin/admin.component';
 
 
 
@@ -18,12 +19,21 @@ export class AppComponent implements OnInit {
   isUserDropdownOpen = false;
   isLogged = false; //* Variable para verificar si el usuario está logueado
   user: any = null; //* Variable para almacenar la información del usuario
+  mostrarPlantilla = true
 
-  
+
   constructor(private readonly authService: AuthService) {}
 
   ngOnInit(): void {
     this.checkLoginStatus(); //* Verificar el estado de inicio de sesión al iniciar
+  }
+
+  Plantilla(component: Component): void {
+    if (component instanceof AdminComponent) {
+      this.mostrarPlantilla = false
+    } else {
+      this.mostrarPlantilla = true
+    }
   }
 
   toggleMenu() {

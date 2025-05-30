@@ -1,4 +1,5 @@
 <div class="flex flex-col min-h-screen">
+  @if (mostrarPlantilla) {
   <header class="bg-gray-800 text-white fixed w-full top-0 z-50 shadow-md">
     <nav class="container mx-auto flex items-center justify-between px-4 py-3">
       <div class="flex items-center">
@@ -7,39 +8,44 @@
       <button class="lg:hidden text-white" aria-label="Abrir menú" (click)="toggleMenu()">
         &#9776;
       </button>
-      <ul [class.hidden]="!isMenuOpen" class="lg:flex flex-col lg:flex-row lg:space-x-8 bg-gray-800 w-full lg:w-auto absolute lg:relative top-full left-0 p-4 lg:p-0 z-50">
+      <ul [class.hidden]="!isMenuOpen"
+        class="lg:flex flex-col lg:flex-row lg:space-x-8 bg-gray-800 w-full lg:w-auto absolute lg:relative top-full left-0 p-4 lg:p-0 z-50">
         <li><a routerLink="/inicio" class="block px-4 py-2 text-white hover:text-orange-400">Inicio</a></li>
         <li><a routerLink="/productos" class="block px-4 py-2 text-white hover:text-orange-400">Productos</a></li>
         <li><a routerLink="/acerca-de" class="block px-4 py-2 text-white hover:text-orange-400">Acerca de</a></li>
         <li><a routerLink="/contacto" class="block px-4 py-2 text-white hover:text-orange-400">Contacto</a></li>
         <li class="relative">
           @if (isLogged) {
-            <button (click)="toggleUserDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">{{ user.rol }}</button>
-            <ul [class.hidden]="!isUserDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg z-50">
-              <li><a routerLink="/account/profile" class="block px-4 py-2 text-white hover:bg-gray-600">Perfil</a></li>
-              <li><a routerLink="/auth/logout" class="block px-4 py-2 text-white hover:bg-gray-600">Cerrar Sesión</a></li>
-            </ul>
+          <button (click)="toggleUserDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">{{ user.rol
+            }}</button>
+          <ul [class.hidden]="!isUserDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg z-50">
+            <li><a routerLink="/account/profile" class="block px-4 py-2 text-white hover:bg-gray-600">Perfil</a></li>
+            <li><a routerLink="/auth/logout" class="block px-4 py-2 text-white hover:bg-gray-600">Cerrar Sesión</a></li>
+          </ul>
           } @else {
-            <button (click)="toggleDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">Cuenta</button>
-            <ul [class.hidden]="!isDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg z-50">
-              <li><a routerLink="/auth/login" class="block px-4 py-2 text-white hover:bg-gray-600">Iniciar Sesión</a></li>
-              <li><a routerLink="/auth/register" class="block px-4 py-2 text-white hover:bg-gray-600">Registrarse</a></li>
-            </ul>
+          <button (click)="toggleDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">Cuenta</button>
+          <ul [class.hidden]="!isDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg z-50">
+            <li><a routerLink="/auth/login" class="block px-4 py-2 text-white hover:bg-gray-600">Iniciar Sesión</a></li>
+            <li><a routerLink="/auth/register" class="block px-4 py-2 text-white hover:bg-gray-600">Registrarse</a></li>
+          </ul>
           }
         </li>
       </ul>
     </nav>
   </header>
+  }
 
   <section class="flex-grow pt-[80px]">
-    <router-outlet></router-outlet>
+    <router-outlet (activate)="Plantilla($event)"></router-outlet>
   </section>
 
+  @if (mostrarPlantilla) {
   <footer class="bg-gray-900 text-gray-200">
     <div class="container mx-auto py-8 px-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
       <div>
         <h3 class="text-xl font-bold mb-2">Ferremas</h3>
-        <p class="text-sm">Tu aliado en herramientas y materiales de construcción. Ofrecemos productos de calidad para tus proyectos grandes y pequeños.</p>
+        <p class="text-sm">Tu aliado en herramientas y materiales de construcción. Ofrecemos productos de calidad para
+          tus proyectos grandes y pequeños.</p>
       </div>
       <div>
         <h4 class="text-lg font-semibold mb-2">Enlaces útiles</h4>
@@ -54,11 +60,13 @@
         <h4 class="text-lg font-semibold mb-2">Contáctanos</h4>
         <p class="text-sm mb-1"><strong>Teléfono:</strong> +56 3147 0059</p>
         <p class="text-sm mb-1"><strong>Email:</strong> contacto&#64;ferremas.com</p>
-        <p class="text-sm"><strong>Dirección:</strong> Avenida Concha Y Toro, Av. San Carlos 1340, Puente Alto, Región Metropolitana</p>
+        <p class="text-sm"><strong>Dirección:</strong> Avenida Concha Y Toro, Av. San Carlos 1340, Puente Alto, Región
+          Metropolitana</p>
       </div>
     </div>
     <div class="bg-gray-800 text-center py-4">
       <p class="text-sm">&copy; 2025 Ferremas. Todos los derechos reservados.</p>
     </div>
   </footer>
+  }
 </div>
