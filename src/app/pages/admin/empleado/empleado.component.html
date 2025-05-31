@@ -13,23 +13,23 @@
               <th class="py-2 px-4 border-b">Primer apellido</th>
               <th class="py-2 px-4 border-b">Segundo apellido</th>
               <th class="py-2 px-4 border-b">Email</th>
-              <th class="py-2 px-4 border-b">Contraseña</th>
               <th class="py-2 px-4 border-b">Telefono</th>
-              <th class="py-2 px-4 border-b">Dirección</th>
-              <th class="py-2 px-4 border-b">Fecha nacimiento</th>
               <th class="py-2 px-4 border-b">Fecha contrato</th>
-              <th class="py-2 px-4 border-b">Género</th>
-              <th class="py-2 px-4 border-b">Estado civil</th>
-              <th class="py-2 px-4 border-b">Comuna</th>
               <th class="py-2 px-4 border-b">Tipo empleado</th>
               <!-- Add more columns as needed -->
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let empleado of empleados">
-              <td class="py-2 px-4 border-b">{{ empleado.rutempleado }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.nombre }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.correo }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.rutEmpleado }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.pNombre }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.sNombre }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.pApellido }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.sApellido }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.email }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.telefono }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.fechaContrato }}</td>
+              <td class="py-2 px-4 border-b">{{ empleado.idTipoEmp }}</td>
             </tr>
           </tbody>
         </table>

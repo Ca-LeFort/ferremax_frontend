@@ -1,0 +1,66 @@
+<h1 class="text-center font-bold text-4xl">Mi carrito de compras</h1>
+<div class="max-w-4xl mx-auto mt-10 p-6 bg-white rounded-xl shadow-md text-center">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Imagen
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Nombre del producto
+                    </th>
+                    <th scope="col" class="py-3">
+                        Cantidad
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Precio
+                    </th>
+                    <th scope="col" class="px-6 py-3"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600"
+                    *ngFor="let item of carrito.productoCarritos">
+                    <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                        <img [src]="item.idProductoNavigation.imagenUrl" width="100">
+                    </th>
+                    <td class="px-6 py-4">
+                        {{ item.idProductoNavigation.nombre }}
+                    </td>
+                    <td class="items-center justify-center space-x-5">
+                        <button class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                            (click)="cambiarCantidad(item, -1)"
+                            [disabled]="item.cantidad <= 1">-</button>
+
+                        <span class="w-10 text-center">{{ item.cantidad }}</span>
+
+                        <button class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
+                            (click)="cambiarCantidad(item, 1)"
+                            [disabled]="item.cantidad >= item.idProductoNavigation.stock">+</button>
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ item.idProductoNavigation.precio * item.cantidad | currency: 'CLP':'symbol' }}
+                        <br>
+                        {{ (item.idProductoNavigation.precio * item.cantidad) / 943.40 | currency: 'USD':'symbol' }}
+                        (USD)
+                    </td>
+                    <td class="px-6 py-4">
+                        <button (click)="eliminarProductoCarrito(item.idCarrito, item.idProducto)"
+                            class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">
+                            Eliminar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <h3>Total a pagar: {{ calcularTotal() | currency:'CLP' }} // {{ calcularTotal() / 943.40 | currency:'USD' }} (USD)
+    </h3>
+    <br>
+    <button type="button"
+        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+        Proceder pedido
+    </button>
+</div>

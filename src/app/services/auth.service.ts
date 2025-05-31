@@ -18,6 +18,15 @@ export class AuthService {
       catchError((error: HttpErrorResponse) => {
         if (error.status === 401) {
           return throwError(() => new Error(error.error?.mensaje || "Error desconocido"));
+        } else if (error.status === 400) { // En caso de que sea administrador
+          const rutAdmin = error.error?.rutAdmin;
+          return throwError(() => ({
+            tipo: 'CAMBIO_PASSWORD',
+            rutAdmin: rutAdmin,
+            mensaje: error.error?.mensaje //|| "Se requiere cambiar la contraseña por primera vez"
+          }));
+        } else if (error.status === 404) {
+          return throwError(() => new Error(error.error?.mensaje || "Error desconocido"));
         }
         return throwError(() => new Error("Error con la base de datos, vuelve a intentar más tarde"));
       })
@@ -45,5 +54,24 @@ export class AuthService {
       return jwtDecode(token); //* Devuelve la información del usuario decodificada
     }
     return null; //* No hay token, no hay usuario
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('rol');
+
+    localStorage.clear();
+  }
+
+  // Método para actualizar la contraseña del administrador
+  cambioPasswordAdmin(rut: string, credentials: { Password: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/updatePass/${rut}`, credentials).pipe(
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 500) {
+          return throwError(() => new Error(error.error?.mensaje || "Error desconocido"));
+        }
+        return throwError(() => new Error("Error con la base de datos, vuelve a intentar más tarde"));
+      })
+    )
   }
 }

@@ -12,6 +12,8 @@ import { PagoComponent } from './pages/admin/pago/pago.component';
 import { PedidoComponent } from './pages/admin/pedido/pedido.component';
 import { MensajeComponent } from './pages/admin/mensaje/mensaje.component';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
+import { PasswordAdminComponent } from './pages/auth/password-admin/password-admin.component';
+import { CarritoComponent } from './pages/carrito/carrito.component';
 
 export const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -19,7 +21,9 @@ export const routes: Routes = [
   { path: 'acerca-de', component: AcercaDeComponent },
   { path: 'contacto', component: ContactoComponent },
   { path: 'auth/login', component: LoginComponent, title: 'Iniciar sesión - Ferremas' },
+  { path: 'auth/cambiar-password', component: PasswordAdminComponent, title: 'Cambiar contraseña - Ferremas' },
   { path: 'auth/register', component: RegisterComponent, title: 'Registrar - Ferremas'},
+  { path: 'carrito', component: CarritoComponent, title: 'Mi carrito - Ferremas' },
 
   // Ruta para Admin con rutas hijas
   {

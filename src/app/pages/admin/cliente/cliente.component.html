@@ -2,7 +2,7 @@
   <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
     <div class="grid grid-cols-3 gap-4 mb-4">
       <div class="mt-8">
-        <h2 class="text-xl font-bold mb-4">Lista de Clientes</h2>
+        <h2 class="text-xl font-bold mb-4 text-center">Lista de Clientes</h2>
         <table class="min-w-full bg-white">
           <thead>
             <tr>
@@ -12,22 +12,19 @@
               <th class="py-2 px-4 border-b">Primer apellido</th>
               <th class="py-2 px-4 border-b">Segundo apellido</th>
               <th class="py-2 px-4 border-b">Email</th>
-              <th class="py-2 px-4 border-b">Contraseña</th>
               <th class="py-2 px-4 border-b">Telefono</th>
-              <th class="py-2 px-4 border-b">Dirección</th>
-              <th class="py-2 px-4 border-b">Fecha nacimiento</th>
-              <th class="py-2 px-4 border-b">Género</th>
-              <th class="py-2 px-4 border-b">Estado civil</th>
-              <th class="py-2 px-4 border-b">Comuna</th>
-              <th class="py-2 px-4 border-b">Notificación</th>
             </tr>
           </thead>
           <tbody>
-            @for (cliente of clientes; track cliente.id) {
+            @for (cliente of clientes; track cliente.rutCliente) {
             <tr>
-              <td class="py-2 px-4 border-b">{{ cliente.id }}</td>
-              <td class="py-2 px-4 border-b">{{ cliente.nombre }}</td>
-              <td class="py-2 px-4 border-b">{{ cliente.correo }}</td>
+              <td class="py-2 px-4 border-b">{{ cliente.rutCliente }}</td>
+              <td class="py-2 px-4 border-b">{{ cliente.pNombre }}</td>
+              <td class="py-2 px-4 border-b">{{ cliente.sNombre }}</td>
+              <td class="py-2 px-4 border-b">{{ cliente.pApellido }}</td>
+              <td class="py-2 px-4 border-b">{{ cliente.sApellido }}</td>
+              <td class="py-2 px-4 border-b">{{ cliente.email }}</td>
+              <td class="py-2 px-4 border-b">{{ cliente.telefono }}</td>
               <td class="py-2 px-4 border-b">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
                   (click)="editCliente(cliente)">Editar</button>
