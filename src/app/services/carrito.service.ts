@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class CarritoService {
 
   private apiUrl = 'https://localhost:7007/api/carrito';
-  
+
   constructor(private http: HttpClient) { }
 
   getCarrito(): Observable<any> {
@@ -17,6 +17,19 @@ export class CarritoService {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     });
+  }
+
+  agregarProducto(carritoId: number, productoId: number, cantidad: number) {
+    const body = {
+      IdProducto: productoId,
+      cantidad: cantidad
+    }
+
+    return this.http.post(`${this.apiUrl}/${carritoId}/agregar-producto`, body);
+  }
+
+  obtenerCarritoActivo(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/carrito-activo`);
   }
 
   actualizarProducto(carritoId: number, dto: { IdProducto: number, nuevaCantidad: number }): Observable<any> {

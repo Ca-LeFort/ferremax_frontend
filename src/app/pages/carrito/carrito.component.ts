@@ -62,6 +62,30 @@ export class CarritoComponent {
     });
   }
 
+  obtenerCantidadTotal(): number {
+    return this.carrito.productoCarritos.reduce(
+      (acc: number, item: any) =>
+        acc + item.cantidad,
+      0);
+  }
+
+  calcularTotalConDescuento(): number {
+    const total = this.carrito.productoCarritos.reduce(
+      (acc: number, item: any) =>
+        acc + item.cantidad * item.idProductoNavigation.precio,
+      0);
+
+    const cantidadTotal = this.obtenerCantidadTotal();
+    const descuento = cantidadTotal >= 4 ? 0.25 : 0; // 25% de descuento si hay 4 o más
+
+    return total - (total * descuento);
+  }
+
+  obtenerDescuento(): number {
+    const total = this.calcularTotal();
+    return this.obtenerCantidadTotal() >= 4 ? total * 0.1 : 0;
+  }
+
   eliminarProductoCarrito(carritoId: number, productoId: number): void {
     this.carritoService.deleteProducto(carritoId, productoId).subscribe({
       next: () => {

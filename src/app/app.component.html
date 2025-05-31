@@ -16,10 +16,15 @@
         <li><a routerLink="/contacto" class="block px-4 py-2 text-white hover:text-orange-400">Contacto</a></li>
         <li class="relative">
           @if (isLogged) {
-          <button (click)="toggleUserDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">{{ user.rol
+          <button (click)="toggleUserDropdown()" class="block px-4 py-2 text-white hover:text-orange-400">Hola, {{ user.rol
             }}</button>
           <ul [class.hidden]="!isUserDropdownOpen" class="absolute bg-gray-700 mt-2 rounded shadow-lg z-50">
             <li><a routerLink="/account/profile" class="block px-4 py-2 text-white hover:bg-gray-600">Perfil</a></li>
+            @if (esCliente()) {
+              <li><a routerLink="/carrito" class="block px-4 py-2 text-white hover:bg-gray-600">Mi carrito</a></li>
+            } @else if (esEmpleado()) {
+              <li><a routerLink="/admin" class="block px-4 py-2 text-white hover:bg-gray-600">Administración de la página</a></li>
+            }
             <li><a (click)="cerrarSesion()" href="" class="block px-4 py-2 text-white hover:bg-gray-600">Cerrar Sesión</a></li>
           </ul>
           } @else {

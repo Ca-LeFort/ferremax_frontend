@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductosService } from '../../services/productos.service';
 import { MarcasService } from '../../services/marcas.service';
+import { CarritoService } from '../../services/carrito.service';
+import { AlertService } from '../../services/alert.service';
 
 @Component({
   selector: 'app-productos',
@@ -12,12 +14,26 @@ export class ProductosComponent implements OnInit {
   productosFiltrados: any[] = [];
   marcas: any[] = [];
   marcaSeleccionada: string = '';
+  carritoId: number = 0;
 
-  constructor(private productosService: ProductosService, private marcasService: MarcasService) {}
+  constructor(private productosService: ProductosService,
+    private marcasService: MarcasService,
+    private carritoService: CarritoService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit(): void {
     this.obtenerProductos();
     this.obtenerMarcas();
+    this.carritoService.obtenerCarritoActivo().subscribe({
+      next: (carrito) => {
+        this.carritoId = carrito.idCarrito;
+        localStorage.setItem('carritoId', this.carritoId.toString());
+      },
+      error: (err) => {
+        console.error("No se pudo obtener el carrito activo", err);
+      }
+    });
   }
 
   obtenerProductos(): void {
@@ -31,6 +47,20 @@ export class ProductosComponent implements OnInit {
         console.error('Error al obtener los productos:', err.error.detail);
       },
     });
+  }
+
+  agregarAlCarrito(productoId: number) {
+    const cantidad = 1;
+
+    this.carritoService.agregarProducto(this.carritoId, productoId, cantidad).subscribe({
+      next: () => {
+        this.alertService.success("Exito", "Producto agregado al carrito");
+      },
+      error: (error) => {
+        console.error("Error al agregar producto:", error);
+        this.alertService.error("Error", "No se pudo agregar el producto al carrito");
+      }
+    })
   }
 
   obtenerMarcas(): void {

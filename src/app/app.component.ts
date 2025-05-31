@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet , RouterModule, Router } from '@angular/router';
+import { RouterOutlet, RouterModule, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { AdminComponent } from './pages/admin/admin.component';
@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
   user: any = null; //* Variable para almacenar la información del usuario
   mostrarPlantilla = true
 
-  constructor(private readonly authService: AuthService, private router: Router) {}
+  constructor(private readonly authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.checkLoginStatus(); //* Verificar el estado de inicio de sesión al iniciar
@@ -33,6 +33,19 @@ export class AppComponent implements OnInit {
     }
   }
 
+  getRol(): string | null {
+    return localStorage.getItem('rol')
+  }
+
+  esCliente(): boolean {
+    return this.getRol() === 'cliente'
+  }
+
+  esEmpleado(): boolean {
+    const rolesEmpleado = ['administrador', 'encargado', 'bodeguero', 'contador'];
+    return rolesEmpleado.includes(this.getRol() || '');
+  }
+
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
   }
@@ -41,7 +54,7 @@ export class AppComponent implements OnInit {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  toggleUserDropdown(){
+  toggleUserDropdown() {
     this.isUserDropdownOpen = !this.isUserDropdownOpen;
   }
 
@@ -55,8 +68,8 @@ export class AppComponent implements OnInit {
 
   cerrarSesion() {
     this.authService.logout();
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate(['/inicio']);
-      })
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['/inicio']);
+    })
   }
 }
