@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet , RouterModule } from '@angular/router';
+import { RouterOutlet , RouterModule, Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { AdminComponent } from './pages/admin/admin.component';
-
-
 
 @Component({
   selector: 'app-root',
@@ -21,8 +19,7 @@ export class AppComponent implements OnInit {
   user: any = null; //* Variable para almacenar la información del usuario
   mostrarPlantilla = true
 
-
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.checkLoginStatus(); //* Verificar el estado de inicio de sesión al iniciar
@@ -54,5 +51,12 @@ export class AppComponent implements OnInit {
       this.user = this.authService.getUser(); //* Obtener la información del usuario
       console.log(this.user)
     }
+  }
+
+  cerrarSesion() {
+    this.authService.logout();
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate(['/inicio']);
+      })
   }
 }

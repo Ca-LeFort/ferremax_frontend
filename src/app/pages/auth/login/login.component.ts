@@ -30,7 +30,16 @@ export class LoginComponent {
 
     this.authService.login({ Email: Email ?? '', Password: Password ?? '' }).subscribe({
       next: (response) => this.handleLoginSuccess(response),
-      error: (error) => this.handleLoginError(error)
+      error: (error) => {
+        if (error.tipo === "CAMBIO_PASSWORD") {
+          console.log(error.mensaje);
+          this.router.navigate(['/auth/cambiar-password'], {
+            queryParams: { rutAdmin: error.rutAdmin}
+          });
+        } else {
+          this.handleLoginError(error)
+        }
+      }
     });
   }
 
@@ -43,7 +52,7 @@ export class LoginComponent {
       this.Rol = localStorage.getItem('rol') || '';
 
       //* Redirigir al usuario a la página de inicio
-      this.router.navigate(['/inicio']);
+      window.location.href = '/inicio';
     });
   }
 

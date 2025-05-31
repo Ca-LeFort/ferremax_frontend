@@ -43,7 +43,7 @@ export class ClienteService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-    createCliente(cliente: any): Observable<any> {
+  createCliente(cliente: any): Observable<any> {
     return this.http.post(this.apiUrl, cliente);
   }
 

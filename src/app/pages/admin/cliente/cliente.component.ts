@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../../services/cliente.service';
 import { FormsModule } from '@angular/forms';
 
-
 @Component({
   selector: 'app-cliente',
   standalone: true,
