@@ -27,6 +27,14 @@ export class PagoService {
     });
   }
 
+  createPagoTransferencia(dto: TransferenciaDTO): Observable<any> {
+    return this.http.post(`${this.apiUrl}/transferencia`, dto, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
+  }
+
   updatePago(pago: any): Observable<any> {
     return this.http.put(`${this.apiUrl}/${pago.id}`, pago);
   }
@@ -37,6 +45,11 @@ export class PagoService {
 }
 
 export interface MercadoPagoDTO {
+  PrecioTotal: number,
+  IdPedido: number
+}
+
+export interface TransferenciaDTO {
   PrecioTotal: number,
   IdPedido: number
 }
