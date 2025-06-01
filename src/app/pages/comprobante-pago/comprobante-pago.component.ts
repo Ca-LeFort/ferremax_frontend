@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-comprobante-pago',
@@ -8,5 +8,9 @@ import { RouterModule } from '@angular/router';
   styleUrl: './comprobante-pago.component.css'
 })
 export class ComprobantePagoComponent {
+  constructor(private router: Router) {}
 
+  volverInicio() {
+    this.router.navigate(['/inicio']);
+  }
 }
