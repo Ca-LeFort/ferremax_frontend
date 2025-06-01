@@ -15,24 +15,49 @@ export class RegisterComponent {
   registerForm = new FormGroup({
     rut: new FormControl('',
       [Validators.required,
-        Validators.maxLength(10),
-        Validators.pattern(/^\d{7,8}-[\dkK]$/),
-        this.validarRut()
+      Validators.maxLength(10),
+      Validators.pattern(/^\d{7,8}-[\dkK]$/),
+      this.validarRut()
       ]),
-    pnombre: new FormControl('', Validators.required), //* Primer nombre, obligatorio
+    pnombre: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3)
+    ]),
     snombre: new FormControl(''), //* Segundo nombre, opcional
-    papellido: new FormControl('', Validators.required), //* Primer apellido, obligatorio
-    sapellido: new FormControl('', Validators.required), //* Segundo apellido, obligatorio
-    email: new FormControl('', [Validators.required, Validators.email]), //* Correo, obligatorio y con validación de formato
-    password: new FormControl('', [Validators.required, Validators.minLength(8)]), //* Contraseña, obligatoria y con longitud mínima
-    confirmPassword: new FormControl('', Validators.required), //* Confirmación de contraseña
-    telefono: new FormControl('', Validators.required), //* Teléfono, obligatorio
-    direccion: new FormControl('', Validators.required), //* Dirección, obligatoria
-    fechanacimiento: new FormControl('', Validators.required), //* Fecha de nacimiento, obligatoria
-    genero: new FormControl(0, Validators.required), //* Género, obligatorio (valor predeterminado 0)
-    estcivil: new FormControl(0, Validators.required), //* Estado civil, obligatorio
-    comuna: new FormControl(0, Validators.required), //* Comuna, obligatorio
-    notificacion: new FormControl(1) //* Preferencia de notificación, por defecto 1 (habilitado)
+    papellido: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3)
+    ]),
+    sapellido: new FormControl('', [
+      Validators.required,
+      Validators.minLength(3)
+    ]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.pattern(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)
+    ]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(8)
+    ]),
+    confirmPassword: new FormControl('', Validators.required),
+    telefono: new FormControl('', [
+      Validators.required,
+      Validators.pattern(/^9\d{8}$/) //* Valida que sea un número comenzando con 9 y tenga 9 dígitos
+    ]),
+    direccion: new FormControl('', [
+      Validators.required,
+      Validators.minLength(5)
+    ]),
+    fechanacimiento: new FormControl('', [
+      Validators.required,
+      this.validarEdadMinima(18)
+    ]),
+    genero: new FormControl(0, Validators.required),
+    estcivil: new FormControl(0, Validators.required),
+    comuna: new FormControl(0, Validators.required),
+    notificacion: new FormControl(1)
   }, { validators: passwordMatchValidator }); //* Validador para coincidir contraseñas
 
   //* Arrays para datos dinámicos
@@ -41,7 +66,7 @@ export class RegisterComponent {
   generos: any[] = [];
   estCiviles: any[] = [];
 
-  constructor(private clienteService: ClienteService, private alert: AlertService) {}
+  constructor(private clienteService: ClienteService, private alert: AlertService) { }
 
   ngOnInit() {
     this.loadInitialData(); //* Cargar datos iniciales al iniciar el componente
@@ -55,13 +80,44 @@ export class RegisterComponent {
   }
 
   registrar(): void {
-    if (this.registerForm.invalid) return; //* Si el formulario es inválido, no proceder
+    const fechaNacimiento = this.registerForm.get('fechanacimiento')?.value ?? '';
+    if (!this.esMayorDeEdad(fechaNacimiento)) {
+      this.alert.error('Error', 'Debes ser mayor de 18 años para registrarte.');
+      return;
+    }
+    if (this.registerForm.invalid) {
+      console.log('Formulario inválido:', this.registerForm.errors);
+      Object.keys(this.registerForm.controls).forEach(key => {
+        const control = this.registerForm.get(key);
+        if (control?.invalid) {
+          console.log(`Campo inválido: ${key}, errores:`, control.errors);
+        }
+      });
+      return; //* Si el formulario es inválido, no proceder
+    }
 
     const datosCliente = this.mapFormToClientData(); //* Mapea el formulario a un objeto cliente
+    console.log('Datos a registrar:', datosCliente); //* Log para verificar qué datos se están enviando
+
     this.clienteService.registrarCliente(datosCliente).subscribe({
       next: () => this.alert.success('¡Éxito!', 'Has sido registrado, bienvenido a Ferremas'), //* Alerta de éxito
-      error: (error) => this.alert.error('¡Error!', error.message) //* Alerta de error
+      error: (error) => {
+        console.error('Error al registrar:', error); //* Log del error en caso de fallo
+        this.alert.error('¡Error!', error.message); //* Alerta de error
+      }
     });
+  }
+
+  private esMayorDeEdad(fecha: string): boolean {
+    if (!fecha) return false;
+    const hoy = new Date();
+    const nacimiento = new Date(fecha);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const mes = hoy.getMonth() - nacimiento.getMonth();
+    if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+      edad--;
+    }
+    return edad >= 18;
   }
 
   cargarComunas(event: Event): void {
@@ -111,6 +167,24 @@ export class RegisterComponent {
       return null; //* válido
     }
   };
+
+  validarEdadMinima(edadMinima: number): ValidatorFn {
+    return (control: AbstractControl) => {
+      const fechaNacimiento = control.value;
+      if (!fechaNacimiento) return { edadMinima: true };
+
+      const hoy = new Date();
+      const nacimiento = new Date(fechaNacimiento);
+      let edad = hoy.getFullYear() - nacimiento.getFullYear();
+      const mes = hoy.getMonth() - nacimiento.getMonth();
+
+      if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+        edad--;
+      }
+
+      return edad >= edadMinima ? null : { edadMinima: true };
+    };
+  }
 
   private mapFormToClientData(): any {
     //* Mapea los datos del formulario al objeto cliente esperado por el backend
