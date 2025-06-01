@@ -1,0 +1,46 @@
+<div class="max-w-2xl mx-auto mt-8 p-4 bg-white shadow-md rounded-xl">
+    <h1 class="text-2xl font-semibold mb-4 text-center">Resumen del Pago</h1>
+    <br>
+    <!-- Total -->
+    <div class="text-lg font-bold mt-4">
+        Total a Pagar: {{ monto | currency:'CLP' }}
+    </div>
+    <br>
+    <form [formGroup]="pagoForm">
+        <div class="mb-3">
+            <label for="medioPago">Seleccione medio de pago: </label>
+            <select formControlName="medioPagoSeleccionado" name="medioPago" class="form-control">
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option *ngFor="let mp of medioPagos" [value]="mp.idMedioPago">{{ mp.nombre }}</option>
+            </select>
+        </div>
+
+        @if (this.pagoForm.get('medioPagoSeleccionado')?.value === '1') {
+        <!-- Si elige Tarjeta Débito/Crédito -->
+        <div class="mt-6 text-center">
+            <button (click)="procesarPagoTarjeta()" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+                Pagar con Tarjeta
+            </button>
+        </div>
+        } @else if (this.pagoForm.get('medioPagoSeleccionado')?.value === '2') {
+        <!-- Si elige Transferencia -->
+        <div class="alert alert-info">
+            <strong>Datos para Transferencia:</strong><br />
+            Banco: Banco de Chile<br />
+            Cuenta: 123456789<br />
+            Tipo: Cuenta Corriente<br />
+            Rut: 70.256.359-5<br />
+            Nombre: Ferretería y Construcción Ferremas SpA<br />
+            Asunto: Pedido #{{ pedidoId }} mediante Transferencia bancaria
+        </div>
+        <button class="btn btn-warning" (click)="procesarPagoTransferencia()">He realizado la transferencia</button>
+        <div class="mt-6 text-center">
+            <button (click)="procesarPagoTransferencia()" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+                Pagar con Tranferencia
+            </button>
+        </div>
+        }
+    </form>
+</div>
+
+<p>pago works!</p>

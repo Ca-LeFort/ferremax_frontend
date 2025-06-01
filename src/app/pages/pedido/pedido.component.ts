@@ -4,6 +4,7 @@ import { AlertService } from '../../services/alert.service';
 import { CarritoService } from '../../services/carrito.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-pedido',
@@ -25,7 +26,11 @@ export class PedidoComponentCliente {
     sucursalSeleccionado: new FormControl('')
   });
 
-  constructor(private pedidoService: PedidoService, private carritoService: CarritoService, private alert: AlertService) { }
+  constructor(private pedidoService: PedidoService, 
+    private carritoService: CarritoService, 
+    private alert: AlertService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     this.obtenerDespachos();
@@ -64,9 +69,14 @@ export class PedidoComponentCliente {
     };
 
     this.pedidoService.postPedido(pedido).subscribe({
-      next: () => {
-        this.alert.success('Éxito', 'Pedido registrado con éxito');
-        // redirigir o vaciar carrito
+      next: (res: any) => {
+        const idPedido = res.idPedido;
+        localStorage.setItem('pedidoId', idPedido);
+        localStorage.setItem('monto', res.monto);
+        this.alert.success('Éxito', 'Pedido registrado con éxito, ahora puedes proceder con el pago');
+
+        // redirigir a pago
+        this.router.navigate(['/pago']);
       },
       error: (error: { error: { mensaje: any; }; }) => {
         this.alert.error('Error al registrar el pedido', error.error?.mensaje || '');
