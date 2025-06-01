@@ -15,6 +15,11 @@ import { DashboardComponent } from './pages/admin/dashboard/dashboard.component'
 import { PasswordAdminComponent } from './pages/auth/password-admin/password-admin.component';
 import { CarritoComponent } from './pages/carrito/carrito.component';
 import { PedidoComponentCliente } from './pages/pedido/pedido.component';
+import { PagoComponentCliente } from './pages/pago/pago.component';
+import { ComprobantePagoComponent } from './pages/comprobante-pago/comprobante-pago.component';
+import { AprobadoComponent } from './pages/comprobante-pago/aprobado/aprobado.component';
+import { RechazadoComponent } from './pages/comprobante-pago/rechazado/rechazado.component';
+import { PendienteComponent } from './pages/comprobante-pago/pendiente/pendiente.component';
 
 export const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -26,6 +31,19 @@ export const routes: Routes = [
   { path: 'auth/register', component: RegisterComponent, title: 'Registrar - Ferremas'},
   { path: 'carrito', component: CarritoComponent, title: 'Mi carrito - Ferremas' },
   { path: 'pedido', component: PedidoComponentCliente, title: 'Proceso de Pedido - Ferremas' },
+  { path: 'pago', component: PagoComponentCliente, title: 'Resumen de Pago - Ferremas' },
+
+  // Rutas para Comprobante con hijos de resultados
+  { 
+    path: 'comprobante', 
+    component: ComprobantePagoComponent, 
+    children: [
+      { path: 'aprobado', component: AprobadoComponent },
+      { path: 'rechazado', component: RechazadoComponent },
+      { path: 'pendiente', component: PendienteComponent }
+    ],
+    title: 'Comprobante - Ferremas' 
+  },
 
   // Ruta para Admin con rutas hijas
   {

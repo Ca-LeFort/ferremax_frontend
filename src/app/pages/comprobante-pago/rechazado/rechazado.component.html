@@ -1,0 +1,9 @@
+<div class="text-center">
+    @if (pagoStatus === 'null') {
+    <h1 class="text-3xl font-bold text-red-600">¡Pago Cancelado!</h1>
+    <p class="mt-4">Has cancelado el proceso de pago. Vuelve a intentar si quieres</p>
+    } @else {
+        <h1 class="text-3xl font-bold text-red-600">¡Pago Rechazado!</h1>
+        <p class="mt-4">No pudimos proceder con el pago desde la aplicación externa. Vuelve a intentar más tarde</p>
+    }
+</div>

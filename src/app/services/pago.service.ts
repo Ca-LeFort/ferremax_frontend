@@ -6,7 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class PagoService {
-  private apiUrl = 'https://localhost:7007/pagos'; 
+  private apiUrl = 'https://localhost:7007/api/pagos';
+  private apiTraduccion = 'https://localhost:7007/api/traducciones';
 
   constructor(private http: HttpClient) {}
 
@@ -14,8 +15,16 @@ export class PagoService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  createPago(pago: any): Observable<any> {
-    return this.http.post(this.apiUrl, pago);
+  getMedioPagos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiTraduccion}/medio-pagos`);
+  }
+
+  createPagoMercadoPago(dto: MercadoPagoDTO): Observable<any> {
+    return this.http.post(`${this.apiUrl}/crear`, dto, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    });
   }
 
   updatePago(pago: any): Observable<any> {
@@ -25,4 +34,9 @@ export class PagoService {
   deletePago(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/${id}`);
   }
+}
+
+export interface MercadoPagoDTO {
+  PrecioTotal: number,
+  IdPedido: number
 }

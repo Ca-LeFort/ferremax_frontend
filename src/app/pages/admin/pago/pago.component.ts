@@ -22,13 +22,6 @@ export class PagoComponent implements OnInit {
     });
   }
 
-  createPago() {
-    this.pagoService.createPago(this.nuevoPago).subscribe(() => {
-      this.ngOnInit();
-      this.nuevoPago = { clienteNombre: '', fecha: '', total: 0 };
-    });
-  }
-
   editPago(pago: any) {
     this.selectedPago = { ...pago };
   }
