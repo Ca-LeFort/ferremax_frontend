@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { CarritoService } from '../../services/carrito.service';
 import { CommonModule } from '@angular/common';
 import { AlertService } from '../../services/alert.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-carrito',
@@ -15,7 +16,7 @@ export class CarritoComponent {
   total: number = 0;
   dolar: number = 0;
 
-  constructor(private http: HttpClient, private carritoService: CarritoService, private alert: AlertService) { }
+  constructor(private http: HttpClient, private carritoService: CarritoService, private alert: AlertService, private router: Router) { }
 
   getDolar() {
     this.http.get('https://mindicador.cl/api').subscribe({
@@ -30,6 +31,8 @@ export class CarritoComponent {
       error: (error) => { console.error('Error al obtener el carito: ', error) }
     });
     console.log(this.dolar);
+    this.carritoService.setTotal(this.calcularTotalConDescuento());
+    localStorage.setItem('carrito', this.carrito);
   }
 
   calcularTotal(): number {
@@ -95,5 +98,14 @@ export class CarritoComponent {
         this.total = this.calcularTotal();
       }
     })
+  }
+
+  procesarPedido() {
+    // guardar carrito y total en localStorage para que el componente Pedido los lea
+    localStorage.setItem('carrito', JSON.stringify(this.carrito));
+    localStorage.setItem('totalCarrito', this.calcularTotalConDescuento().toString());
+
+    // Redirigir al componente del pedido
+    this.router.navigate(['/pedido']);
   }
 }

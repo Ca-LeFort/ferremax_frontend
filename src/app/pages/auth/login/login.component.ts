@@ -3,6 +3,7 @@ import { AuthService } from '../../../services/auth.service';
 import { FormsModule, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { AlertService } from '../../../services/alert.service';
 import { Router } from '@angular/router';
+import { CarritoService } from '../../../services/carrito.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,10 @@ export class LoginComponent {
   Token = '';
   Rol = '';
 
-  constructor(private authService: AuthService, private alert: AlertService, private router: Router) {}
+  constructor(private authService: AuthService, 
+    private alert: AlertService, 
+    private router: Router,
+    private carritoService: CarritoService) { }
 
   //* Método para manejar el envío del formulario
   onSubmit() {
@@ -34,7 +38,7 @@ export class LoginComponent {
         if (error.tipo === "CAMBIO_PASSWORD") {
           console.log(error.mensaje);
           this.router.navigate(['/auth/cambiar-password'], {
-            queryParams: { rutAdmin: error.rutAdmin}
+            queryParams: { rutAdmin: error.rutAdmin }
           });
         } else {
           this.handleLoginError(error)
@@ -51,8 +55,23 @@ export class LoginComponent {
       this.Token = localStorage.getItem('token') || '';
       this.Rol = localStorage.getItem('rol') || '';
 
+      this.crearCarritoSiNoExiste(); // Crear carrito si no existe
+      
       //* Redirigir al usuario a la página de inicio
       window.location.href = '/inicio';
+    });
+  }
+  
+  // Método para crear un carrito si no existe al momento de iniciar sesión
+  private crearCarritoSiNoExiste(): void {
+    this.carritoService.crearCarrito().subscribe({
+      next: (res) => {
+        console.log(res.mensaje); // "Se agregó el carrito..." o "Se usará el carrito..."
+        localStorage.setItem('carritoId', res.idCarrito.toString());
+      },
+      error: (err) => {
+        console.error("Error al crear carrito:", err);
+      }
     });
   }
 

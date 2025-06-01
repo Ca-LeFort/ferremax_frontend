@@ -25,15 +25,32 @@ export class ProductosComponent implements OnInit {
   ngOnInit(): void {
     this.obtenerProductos();
     this.obtenerMarcas();
+    this.obtenerOCrearCarrito();
+  }
+
+  obtenerOCrearCarrito() {
     this.carritoService.obtenerCarritoActivo().subscribe({
-      next: (carrito) => {
-        this.carritoId = carrito.idCarrito;
-        localStorage.setItem('carritoId', this.carritoId.toString());
-      },
-      error: (err) => {
-        console.error("No se pudo obtener el carrito activo", err);
+    next: (carrito) => {
+      this.carritoId = carrito.idCarrito;
+      localStorage.setItem('carritoId', carrito.idCarrito.toString());
+    },
+    error: (err) => {
+      if (err.status === 404) {
+        // No existe carrito, lo creamos
+        this.carritoService.crearCarrito().subscribe({
+          next: (nuevoCarrito) => {
+            this.carritoId = nuevoCarrito.idCarrito;
+            localStorage.setItem('carritoId', nuevoCarrito.idCarrito.toString());
+          },
+          error: (error) => {
+            console.error("Error al crear el carrito:", error);
+          }
+        });
+      } else {
+        console.error("Error al obtener el carrito:", err);
       }
-    });
+    }
+  });
   }
 
   obtenerProductos(): void {
