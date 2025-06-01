@@ -1,1 +1,45 @@
-<p>pedido works!</p>
+<div class="max-w-2xl mx-auto mt-8 p-4 bg-white shadow-md rounded-xl">
+    <h2 class="text-2xl font-semibold mb-4">Resumen del Pedido</h2>
+
+    <!-- Lista del carrito -->
+    <div *ngFor="let item of carrito.productoCarritos" class="mb-2">
+        <p class="text-gray-800">
+            {{ item.idProductoNavigation.nombre }} - {{ item.cantidad }} x ${{ item.idProductoNavigation.precio }}
+        </p>
+    </div>
+
+    <!-- Total -->
+    <div class="text-lg font-bold mt-4">
+        Total: ${{ precioTotal }}
+    </div>
+
+    <form [formGroup]="pedidoForm" (ngSubmit)="realizarPedido()">
+        <!-- ComboBox de despacho -->
+        <div class="mt-4">
+            <label class="block mb-1 font-medium">Método de Despacho</label>
+            <select formControlName="despachoSeleccionado" class="w-full border border-gray-300 rounded px-3 py-2">
+                <option value="" disabled selected>Seleccione una opción</option>
+                <option *ngFor="let d of despachos" [value]="d.idDespacho">{{ d.nombre }}</option>
+            </select>
+        </div>
+        
+        @if (this.pedidoForm.get('despachoSeleccionado')?.value === '2') {
+            <!-- (Opcional) ComboBox de sucursal -->
+            <div class="mt-4">
+                <label class="block mb-1 font-medium">Sucursal de retiro</label>
+                <select formControlName="sucursalSeleccionado" class="w-full border border-gray-300 rounded px-3 py-2"
+                    required>
+                    <option value="" disabled selected>Seleccione una opción</option>
+                    <option *ngFor="let s of sucursales" [value]="s.idSucursal">{{ s.nombre }}</option>
+                </select>
+            </div>
+        }
+
+        <!-- Botón de procesar -->
+        <div class="mt-6 text-center">
+            <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">
+                Procesar Pago
+            </button>
+        </div>
+    </form>
+</div>
