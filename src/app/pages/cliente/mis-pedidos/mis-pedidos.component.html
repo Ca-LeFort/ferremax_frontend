@@ -1,0 +1,60 @@
+<div>
+  <h1 class="text-2xl font-bold text-gray-800 text-center">Mis pedidos</h1>
+  <div class="mt-8">
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-300 shadow-sm rounded-lg border-collapse">
+        <thead class="bg-gray-100">
+          <tr class="text-left">
+            <th class="py-3 px-4 border-b font-semibold text-gray-700">Orden</th>
+            <th class="py-3 px-4 border-b font-semibold text-gray-700">Fecha del Pedido</th>
+            <th class="py-3 px-4 border-b font-semibold text-gray-700">Precio Total</th>
+            <th class="py-3 px-4 border-b font-semibold text-gray-700">Estado Pedido</th>
+            <th class="py-3 px-4 border-b font-semibold text-gray-700">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pedido of pedidos" class="border-b hover:bg-gray-50">
+            <td class="py-2 px-4">{{ pedido.idPedido }}</td>
+            <td class="py-2 px-4">{{ pedido.fechaPedido | date }}</td>
+            <td class="py-2 px-4">{{ pedido.precioTotal | currency:'CLP' }}</td>
+            <td class="py-2 px-4">
+              <span [ngClass]="{
+                'bg-gray-500 text-white font-bold py-1 px-2 rounded': pedido.estado === 'PENDIENTE',
+                'bg-green-400 text-white font-bold py-1 px-2 rounded': pedido.estado === 'CONFIRMADO',
+                'bg-yellow-500 text-white font-bold py-1 px-2 rounded': pedido.estado === 'PROCESANDO'
+              }">
+                {{ pedido.estado }}
+              </span>
+            </td>
+            <td class="py-2 px-4">
+              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+              (click)="verDetallePedido(pedido.idPedido)">Ver Pedido</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal con fondo más claro -->
+<div *ngIf="pedidoSeleccionado" class="fixed inset-0 z-50 flex items-center justify-center bg-opacity-75 bg-black">
+  <div class="bg-white bg-opacity-75 rounded-lg shadow-lg w-full max-w-md p-6 relative">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Pedido #{{ pedidoSeleccionado.idPedido }}</h2>
+    <p class="mb-2"><span class="font-semibold text-gray-600">Fecha:</span> {{ pedidoSeleccionado.fechaPedido | date }}</p>
+    <p class="mb-2"><span class="font-semibold text-gray-600">Total:</span> {{ pedidoSeleccionado.precioTotal | currency }}</p>
+    <p class="mb-4"><span class="font-semibold text-gray-600">Estado:</span> {{ pedidoSeleccionado.estado }}</p>
+
+    <h3 class="font-semibold text-gray-700 mb-2">Productos:</h3>
+    <ul class="space-y-1 mb-4 text-gray-600">
+      <li *ngFor="let prod of pedidoSeleccionado.productos">
+        - {{ prod.cantidad }} x {{ prod.nombreProducto }}
+      </li>
+    </ul>
+
+    <button (click)="cerrarModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+    <button (click)="cerrarModal()" class="mt-4 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 w-full">
+      Cerrar
+    </button>
+  </div>
+</div>

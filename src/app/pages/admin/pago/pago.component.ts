@@ -13,17 +13,24 @@ export class PagoComponent implements OnInit {
   pagos: any[] = [];
   selectedPago: any = null;
   nuevoPago: any = { clienteNombre: '', fecha: '', total: 0 };
+  modalVisible: boolean = false;
+  pagoSeleccionado: any = null;
 
   constructor(private pagoService: PagoService) {}
 
   ngOnInit() {
-    this.pagoService.getPagos().subscribe(data => {
-      this.pagos = data;
+    this.pagoService.getPagos().subscribe({
+      next: (data) => { this.pagos = data },
+      error: (error) => console.error('Error al obtener pagos', error)
     });
   }
 
   editPago(pago: any) {
     this.selectedPago = { ...pago };
+  }
+
+  verDetallePago(pago: any) {
+    this.pagoSeleccionado = pago;
   }
 
   cancelEdit() {
@@ -47,5 +54,15 @@ export class PagoComponent implements OnInit {
     if (confirm('¿Estás seguro de que deseas eliminar este pago?')) {
       this.deletePago(id);
     }
+  }
+
+  abrirModal(pedido: any) {
+    this.pagoSeleccionado = pedido;
+    this.modalVisible = true;
+  }
+
+  cerrarModal() {
+    this.modalVisible = false;
+    this.pagoSeleccionado = null;
   }
 }

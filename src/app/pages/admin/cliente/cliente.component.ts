@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ClienteService } from '../../../services/cliente.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cliente',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './cliente.component.html',
   styleUrls: ['./cliente.component.css']
 })

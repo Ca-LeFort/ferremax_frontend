@@ -27,6 +27,10 @@ export class PagoService {
     });
   }
 
+  generarReportePagos(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/reportes`, { responseType: 'blob' });
+  }
+
   createPagoTransferencia(dto: TransferenciaDTO): Observable<any> {
     return this.http.post(`${this.apiUrl}/transferencia`, dto, {
       headers: {
