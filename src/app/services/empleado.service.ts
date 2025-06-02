@@ -7,11 +7,16 @@ import { Observable } from 'rxjs';
 })
 export class EmpleadoService {
   private apiUrl = 'https://localhost:7007/api/empleados';
+  private apiTraduccion = 'https://localhost:7007/api/traducciones';
 
   constructor(private http: HttpClient) {}
 
   getEmpleados(): Observable<any> {
     return this.http.get(this.apiUrl);
+  }
+
+  getTipoEmpleados(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiTraduccion}/tipo-empleados`);
   }
 
   createEmpleado(empleado: any): Observable<any> {

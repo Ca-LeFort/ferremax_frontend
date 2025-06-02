@@ -1,66 +1,69 @@
-<div class="p-4 sm:ml-64">
-  <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-    <div class="mt-8">
-      <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Lista de Pagos</h2>
-      <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-300 shadow-sm rounded-lg">
-          <thead class="bg-gray-100 text-gray-700">
-            <tr>
-              <th class="py-3 px-4 border-b font-semibold">ID pago</th>
-              <th class="py-3 px-4 border-b font-semibold">Monto</th>
-              <th class="py-3 px-4 border-b font-semibold">Fecha pago</th>
-              <th class="py-3 px-4 border-b font-semibold">Referencia</th>
-              <th class="py-3 px-4 border-b font-semibold">ID pedido</th>
-              <th class="py-3 px-4 border-b font-semibold">ID medio pago</th>
-              <th class="py-3 px-4 border-b font-semibold">Estado</th>
-              <th class="py-3 px-4 border-b font-semibold">Acción</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let pago of pagos" class="border-b hover:bg-gray-50">
-              <td class="py-2 px-4">{{ pago.id }}</td>
-              <td class="py-2 px-4">{{ pago.monto | currency:'CLP' }}</td>
-              <td class="py-2 px-4">{{ pago.fecha | date }}</td>
-              <td class="py-2 px-4">{{ pago.referencia }}</td>
-              <td class="py-2 px-4">{{ pago.idPedido }}</td>
-              <td class="py-2 px-4">{{ pago.idMedioPago }}</td>
-              <td class="py-2 px-4">
-                <span [ngClass]="{
-                  'bg-green-500 text-white font-bold py-1 px-2 rounded': pago.estado === 'APROBADO',
-                  'bg-yellow-500 text-white font-bold py-1 px-2 rounded': pago.estado === 'PENDIENTE',
-                  'bg-red-500 text-white font-bold py-1 px-2 rounded': pago.estado === 'RECHAZADO'
+<div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+  <div class="mt-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Lista de Pagos</h2>
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-300 shadow-sm rounded-lg">
+        <thead class="bg-gray-100 text-gray-700">
+          <tr>
+            <th class="py-3 px-4 border-b font-semibold">ID pago</th>
+            <th class="py-3 px-4 border-b font-semibold">Monto</th>
+            <th class="py-3 px-4 border-b font-semibold">Fecha pago</th>
+            <th class="py-3 px-4 border-b font-semibold">Referencia</th>
+            <th class="py-3 px-4 border-b font-semibold">ID pedido</th>
+            <th class="py-3 px-4 border-b font-semibold">ID medio pago</th>
+            <th class="py-3 px-4 border-b font-semibold">Estado</th>
+            <th class="py-3 px-4 border-b font-semibold">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let pago of pagos" class="border-b hover:bg-gray-50">
+            <td class="py-2 px-4">{{ pago.idPago }}</td>
+            <td class="py-2 px-4">{{ pago.monto | currency:'CLP' }}</td>
+            <td class="py-2 px-4">{{ pago.fechaPago | date }}</td>
+            <td class="py-2 px-4">{{ pago.referencia }}</td>
+            <td class="py-2 px-4">{{ pago.idPedido }}</td>
+            <td class="py-2 px-4">{{ pago.idMedioPago }}</td>
+            <td class="py-2 px-4">
+              <span [ngClass]="{
+                  'bg-green-500 text-white font-bold py-1 px-2 rounded': estadoPagos[pago.idEstPago] === 'PAGADO',
+                  'bg-gray-500 text-white font-bold py-1 px-2 rounded': estadoPagos[pago.idEstPago] === 'PENDIENTE',
+                  'bg-gray-600 text-white font-bold py-1 px-2 rounded': estadoPagos[pago.idEstPago] === 'PENDIENTE TRASFERENCIA',
+                  'bg-red-500 text-white font-bold py-1 px-2 rounded': estadoPagos[pago.idEstPago] === 'RECHAZADO',
+                  'bg-red-600 text-white font-bold py-1 px-2 rounded': estadoPagos[pago.idEstPago] === 'CANCELADO',
+                  'bg-red-400 text-white font-bold py-1 px-2 rounded': estadoPagos[pago.idEstPago] === 'FALLIDO',
                 }">
-                  {{ pago.estado }}
-                </span>
-              </td>
-              <td class="py-2 px-4">
-                <button (click)="verDetallePago(pago)" 
-                  class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
-                  Ver Detalles
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                {{ estadoPagos[pago.idEstPago] }}
+              </span>
+            </td>
+            <td class="py-2 px-4">
+              <button (click)="verDetallePago(pago)"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded">
+                Ver Detalles
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 
 <!-- Modal de Detalle de Pago -->
-<div *ngIf="pagoSeleccionado" class="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-75">
+<div *ngIf="pagoSeleccionado" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
   <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative">
     <h2 class="text-2xl font-bold text-gray-800 mb-4">Detalles del Pago #{{ pagoSeleccionado.id }}</h2>
-    <p class="mb-2"><span class="font-semibold text-gray-600">Monto:</span> {{ pagoSeleccionado.monto | currency:'CLP' }}</p>
-    <p class="mb-2"><span class="font-semibold text-gray-600">Fecha:</span> {{ pagoSeleccionado.fecha | date }}</p>
+    <p class="mb-2"><span class="font-semibold text-gray-600">Monto:</span> {{ pagoSeleccionado.monto | currency:'CLP'
+      }}</p>
+    <p class="mb-2"><span class="font-semibold text-gray-600">Fecha:</span> {{ pagoSeleccionado.fechaPago | date }}</p>
     <p class="mb-2"><span class="font-semibold text-gray-600">Referencia:</span> {{ pagoSeleccionado.referencia }}</p>
     <p class="mb-2"><span class="font-semibold text-gray-600">ID Pedido:</span> {{ pagoSeleccionado.idPedido }}</p>
-    <p class="mb-2"><span class="font-semibold text-gray-600">Medio de Pago:</span> {{ pagoSeleccionado.idMedioPago }}</p>
-    <p class="mb-4"><span class="font-semibold text-gray-600">Estado:</span> {{ pagoSeleccionado.estado }}</p>
+    <p class="mb-2"><span class="font-semibold text-gray-600">Medio de Pago:</span> {{ pagoSeleccionado.idMedioPago }}
+    </p>
+    <p class="mb-4"><span class="font-semibold text-gray-600">Estado:</span> {{ estadoPagos[pagoSeleccionado.idEstPago] }}</p>
 
-    <button (click)="cerrarModal()" class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl">&times;</button>
-    <button (click)="cerrarModal()" 
-      class="mt-4 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 w-full">
+    <button (click)="cerrarModal()"
+      class="absolute top-2 right-2 text-gray-500 hover:text-red-500 text-2xl">&times;</button>
+    <button (click)="cerrarModal()" class="mt-4 bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 w-full">
       Cerrar
     </button>
   </div>

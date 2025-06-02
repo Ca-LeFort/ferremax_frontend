@@ -15,10 +15,18 @@ export class PagoComponent implements OnInit {
   nuevoPago: any = { clienteNombre: '', fecha: '', total: 0 };
   modalVisible: boolean = false;
   pagoSeleccionado: any = null;
+  estadoPagos: { [key: number]: string } = {};
 
   constructor(private pagoService: PagoService) {}
 
   ngOnInit() {
+    this.pagoService.getEstPagos().subscribe(estados => {
+      // Crear mapa { id: nombre }
+      estados.forEach(e => {
+        this.estadoPagos[e.idEstPago] = e.nombre;
+      });
+    });
+
     this.pagoService.getPagos().subscribe({
       next: (data) => { this.pagos = data },
       error: (error) => console.error('Error al obtener pagos', error)

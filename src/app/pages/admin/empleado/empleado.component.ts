@@ -12,11 +12,20 @@ import { CommonModule } from '@angular/common';
 })
 export class EmpleadoComponent implements OnInit {
   empleados: any[] = [];
+  tipoEmpleados: { [key: number]: string } = {};
   selectedEmpleado: any = null;
   nuevoEmpleado: any = { nombre: '', correo: '' };
+  
   constructor(private empleadoService: EmpleadoService) {}
 
   ngOnInit(){
+    this.empleadoService.getTipoEmpleados().subscribe(estados => {
+      // Crear mapa { id: nombre }
+      estados.forEach(e => {
+        this.tipoEmpleados[e.idTipoEmp] = e.nombre;
+      });
+    });
+
     this.empleadoService.getEmpleados().subscribe(data => {
       this.empleados = data;
     });

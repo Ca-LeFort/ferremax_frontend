@@ -1,39 +1,50 @@
-<div class="p-4 sm:ml-64 ">
-  <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-    <div class="grid grid-cols-3 gap-4 mb-4">
-      <!-- Show employee list -->
-      <div class="mt-8">
-        <h2 class="text-xl font-bold mb-4">Lista de Empleados</h2>
-        <table class="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th class="py-2 px-4 border-b">Rut</th>
-              <th class="py-2 px-4 border-b">Primer nombre</th>
-              <th class="py-2 px-4 border-b">Segundo nombre</th>
-              <th class="py-2 px-4 border-b">Primer apellido</th>
-              <th class="py-2 px-4 border-b">Segundo apellido</th>
-              <th class="py-2 px-4 border-b">Email</th>
-              <th class="py-2 px-4 border-b">Telefono</th>
-              <th class="py-2 px-4 border-b">Fecha contrato</th>
-              <th class="py-2 px-4 border-b">Tipo empleado</th>
-              <!-- Add more columns as needed -->
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let empleado of empleados">
-              <td class="py-2 px-4 border-b">{{ empleado.rutEmpleado }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.pNombre }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.sNombre }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.pApellido }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.sApellido }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.email }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.telefono }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.fechaContrato }}</td>
-              <td class="py-2 px-4 border-b">{{ empleado.idTipoEmp }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<div class="p-6 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+  <div class="mt-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Lista de Empleados</h2>
+
+    <!-- Botón para agregar empleado -->
+    <div class="mb-4 text-right">
+      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        ➕ Agregar Empleado
+      </button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-300 shadow-sm rounded-lg">
+        <thead class="bg-gray-100 text-gray-700">
+          <tr>
+            <th class="py-3 px-4 border-b font-semibold">RUT</th>
+            <th class="py-3 px-4 border-b font-semibold">Primer Nombre</th>
+            <th class="py-3 px-4 border-b font-semibold">Segundo Nombre</th>
+            <th class="py-3 px-4 border-b font-semibold">Primer Apellido</th>
+            <th class="py-3 px-4 border-b font-semibold">Segundo Apellido</th>
+            <th class="py-3 px-4 border-b font-semibold">Email</th>
+            <th class="py-3 px-4 border-b font-semibold">Fecha Contrato</th>
+            <th class="py-3 px-4 border-b font-semibold">Tipo Empleado</th>
+            <th class="py-3 px-4 border-b font-semibold">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let empleado of empleados" class="border-b hover:bg-gray-50">
+            <td class="py-2 px-4">{{ empleado.rutEmpleado }}</td>
+            <td class="py-2 px-4">{{ empleado.pNombre }}</td>
+            <td class="py-2 px-4">{{ empleado.sNombre || '-' }}</td>
+            <td class="py-2 px-4">{{ empleado.pApellido }}</td>
+            <td class="py-2 px-4">{{ empleado.sApellido }}</td>
+            <td class="py-2 px-4">{{ empleado.email }}</td>
+            <td class="py-2 px-4">{{ empleado.fechaContrato | date }}</td>
+            <td class="py-2 px-4">{{ tipoEmpleados[empleado.idTipoEmp] }}</td>
+            <td class="py-2 px-4">
+              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2">
+                ✏ Editar
+              </button>
+              <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                ❌ Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

@@ -12,11 +12,15 @@ export class PagoService {
   constructor(private http: HttpClient) {}
 
   getPagos(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+    return this.http.get<any[]>(`${this.apiUrl}/todos`);
   }
 
   getMedioPagos(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiTraduccion}/medio-pagos`);
+  }
+
+  getEstPagos(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiTraduccion}/estado-pagos`);
   }
 
   createPagoMercadoPago(dto: MercadoPagoDTO): Observable<any> {
