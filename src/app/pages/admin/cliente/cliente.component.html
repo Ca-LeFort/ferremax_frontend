@@ -1,66 +1,48 @@
-<div class="p-4 sm:ml-64 ">
-  <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
-    <div class="grid grid-cols-3 gap-4 mb-4">
-      <div class="mt-8">
-        <h2 class="text-xl font-bold mb-4 text-center">Lista de Clientes</h2>
-        <table class="min-w-full bg-white">
-          <thead>
-            <tr>
-              <th class="py-2 px-4 border-b">Rut</th>
-              <th class="py-2 px-4 border-b">Primer nombre</th>
-              <th class="py-2 px-4 border-b">Segundo nombre</th>
-              <th class="py-2 px-4 border-b">Primer apellido</th>
-              <th class="py-2 px-4 border-b">Segundo apellido</th>
-              <th class="py-2 px-4 border-b">Email</th>
-              <th class="py-2 px-4 border-b">Telefono</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (cliente of clientes; track cliente.rutCliente) {
-            <tr>
-              <td class="py-2 px-4 border-b">{{ cliente.rutCliente }}</td>
-              <td class="py-2 px-4 border-b">{{ cliente.pNombre }}</td>
-              <td class="py-2 px-4 border-b">{{ cliente.sNombre }}</td>
-              <td class="py-2 px-4 border-b">{{ cliente.pApellido }}</td>
-              <td class="py-2 px-4 border-b">{{ cliente.sApellido }}</td>
-              <td class="py-2 px-4 border-b">{{ cliente.email }}</td>
-              <td class="py-2 px-4 border-b">{{ cliente.telefono }}</td>
-              <td class="py-2 px-4 border-b">
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2"
-                  (click)="editCliente(cliente)">Editar</button>
-                <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                  (click)="confirmDelete(cliente.id)">Eliminar</button>
-              </td>
-            </tr>
-            }
-          </tbody>
-          @if (selectedCliente) {
-          <div class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-            <div class="bg-white p-6 rounded shadow-lg w-96">
-              <h3 class="text-lg font-bold mb-4">Editar Cliente</h3>
-              <form (ngSubmit)="updateCliente()">
-                <div class="mb-4">
-                  <label class="block text-gray-700">Nombre:</label>
-                  <input [(ngModel)]="selectedCliente.nombre" name="nombre" class="border rounded w-full py-2 px-3"
-                    required>
-                </div>
-                <div class="mb-4">
-                  <label class="block text-gray-700">Correo:</label>
-                  <input [(ngModel)]="selectedCliente.correo" name="correo" class="border rounded w-full py-2 px-3"
-                    required>
-                </div>
-                <!-- Add more fields as needed -->
-                <div class="flex justify-end">
-                  <button type="button" class="mr-2 px-4 py-2 bg-gray-300 rounded"
-                    (click)="cancelEdit()">Cancelar</button>
-                  <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded">Actualizar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-          }
-        </table>
-      </div>
+<div class="p-6 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
+  <div class="mt-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4 text-center">Lista de Clientes</h2>
+
+    <!-- Botón para agregar cliente -->
+    <div class="mb-4 text-right">
+      <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+        ➕ Agregar Cliente
+      </button>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-white border border-gray-300 shadow-sm rounded-lg">
+        <thead class="bg-gray-100 text-gray-700">
+          <tr>
+            <th class="py-3 px-4 border-b font-semibold">RUT</th>
+            <th class="py-3 px-4 border-b font-semibold">Primer Nombre</th>
+            <th class="py-3 px-4 border-b font-semibold">Segundo Nombre</th>
+            <th class="py-3 px-4 border-b font-semibold">Primer Apellido</th>
+            <th class="py-3 px-4 border-b font-semibold">Segundo Apellido</th>
+            <th class="py-3 px-4 border-b font-semibold">Email</th>
+            <th class="py-3 px-4 border-b font-semibold">Teléfono</th>
+            <th class="py-3 px-4 border-b font-semibold">Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of clientes" class="border-b hover:bg-gray-50">
+            <td class="py-2 px-4">{{ cliente.rutCliente }}</td>
+            <td class="py-2 px-4">{{ cliente.pNombre }}</td>
+            <td class="py-2 px-4">{{ cliente.sNombre || '-' }}</td>
+            <td class="py-2 px-4">{{ cliente.pApellido }}</td>
+            <td class="py-2 px-4">{{ cliente.sApellido }}</td>
+            <td class="py-2 px-4">{{ cliente.email }}</td>
+            <td class="py-2 px-4">{{ cliente.telefono }}</td>
+            <td class="py-2 px-4">
+              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded mr-2">
+                ✏ Editar
+              </button>
+              <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded">
+                ❌ Eliminar
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

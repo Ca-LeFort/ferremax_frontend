@@ -20,6 +20,11 @@ import { ComprobantePagoComponent } from './pages/comprobante-pago/comprobante-p
 import { AprobadoComponent } from './pages/comprobante-pago/aprobado/aprobado.component';
 import { RechazadoComponent } from './pages/comprobante-pago/rechazado/rechazado.component';
 import { PendienteComponent } from './pages/comprobante-pago/pendiente/pendiente.component';
+import { MisPedidosComponent } from './pages/cliente/mis-pedidos/mis-pedidos.component';
+import { PerfilComponent } from './pages/cliente/perfil/perfil.component';
+import { ReportesComponent } from './pages/admin/reportes/reportes.component';
+import { CrearClienteComponent } from './pages/admin/cliente/crear/crear.component';
+import { CrearEmpleadoComponent } from './pages/admin/empleado/crear/crear.component';
 
 export const routes: Routes = [
   { path: 'inicio', component: InicioComponent },
@@ -32,6 +37,8 @@ export const routes: Routes = [
   { path: 'carrito', component: CarritoComponent, title: 'Mi carrito - Ferremas' },
   { path: 'pedido', component: PedidoComponentCliente, title: 'Proceso de Pedido - Ferremas' },
   { path: 'pago', component: PagoComponentCliente, title: 'Resumen de Pago - Ferremas' },
+  { path: 'perfil/mis-pedidos', component: MisPedidosComponent, title: 'Mis pedidos - Ferremas' },
+  { path: 'perfil/mi-perfil', component: PerfilComponent, title: 'Mi perfil - Ferremas' },
 
   // Rutas para Comprobante con hijos de resultados
   { 
@@ -52,10 +59,13 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: DashboardComponent},
       { path: 'cliente', component: ClienteComponent },
+      { path: 'cliente/crear', component: CrearClienteComponent },
       { path: 'empleado', component: EmpleadoComponent },
+      { path: 'empleado/crear', component: CrearEmpleadoComponent },
       { path: 'pago', component: PagoComponent },
       { path: 'pedido', component: PedidoComponent },
       { path: 'mensaje', component: MensajeComponent },
+      { path: 'reportes', component: ReportesComponent },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Redirigir a una ruta hija por defecto
     ],
   },

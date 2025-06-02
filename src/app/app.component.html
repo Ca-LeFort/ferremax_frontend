@@ -22,6 +22,7 @@
             <li><a routerLink="/account/profile" class="block px-4 py-2 text-white hover:bg-gray-600">Perfil</a></li>
             @if (esCliente()) {
               <li><a routerLink="/carrito" class="block px-4 py-2 text-white hover:bg-gray-600">Mi carrito</a></li>
+              <li><a routerLink="/perfil/mis-pedidos" class="block px-4 py-2 text-white hover:bg-gray-600">Mis pedidos</a></li>
             } @else if (esEmpleado()) {
               <li><a routerLink="/admin" class="block px-4 py-2 text-white hover:bg-gray-600">Administración de la página</a></li>
             }
