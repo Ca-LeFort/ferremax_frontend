@@ -23,6 +23,10 @@ export class ClienteComponent implements OnInit {
     });
   }
 
+  irCrearCliente() {
+    window.location.href = '/admin/cliente/crear';
+  }
+
   createCliente() {
     this.clienteService.createCliente(this.nuevoCliente).subscribe(() => {
       this.ngOnInit();

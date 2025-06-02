@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { ClienteService } from '../../../../services/cliente.service';
 import { AlertService } from '../../../../services/alert.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-crear',
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './crear.component.html',
   styleUrl: './crear.component.css'
 })
@@ -59,78 +60,78 @@ export class CrearClienteComponent {
   }, { validators: passwordMatchValidator }); //* Validador para coincidir contraseñas
 
   //* Arrays para datos dinámicos
-    regiones: any[] = [];
-    comunas: any[] = [];
-    generos: any[] = [];
-    estCiviles: any[] = [];
-  
-    constructor(private clienteService: ClienteService, private alert: AlertService) { }
-  
-    ngOnInit() {
-      this.loadInitialData(); //* Cargar datos iniciales al iniciar el componente
+  regiones: any[] = [];
+  comunas: any[] = [];
+  generos: any[] = [];
+  estCiviles: any[] = [];
+
+  constructor(private clienteService: ClienteService, private alert: AlertService) { }
+
+  ngOnInit() {
+    this.loadInitialData(); //* Cargar datos iniciales al iniciar el componente
+  }
+
+  private loadInitialData(): void {
+    //* Llama a los servicios para obtener regiones, géneros y estados civiles
+    this.clienteService.getRegiones().subscribe(data => this.regiones = data);
+    this.clienteService.getGeneros().subscribe(data => this.generos = data);
+    this.clienteService.getEstCivil().subscribe(data => this.estCiviles = data);
+  }
+
+  registrar(): void {
+    const fechaNacimiento = this.clienteForm.get('fechanacimiento')?.value ?? '';
+    if (!this.esMayorDeEdad(fechaNacimiento)) {
+      this.alert.error('Error', 'Debes ser mayor de 18 años para registrarte.');
+      return;
     }
-  
-    private loadInitialData(): void {
-      //* Llama a los servicios para obtener regiones, géneros y estados civiles
-      this.clienteService.getRegiones().subscribe(data => this.regiones = data);
-      this.clienteService.getGeneros().subscribe(data => this.generos = data);
-      this.clienteService.getEstCivil().subscribe(data => this.estCiviles = data);
-    }
-  
-    registrar(): void {
-      const fechaNacimiento = this.clienteForm.get('fechanacimiento')?.value ?? '';
-      if (!this.esMayorDeEdad(fechaNacimiento)) {
-        this.alert.error('Error', 'Debes ser mayor de 18 años para registrarte.');
-        return;
-      }
-      if (this.clienteForm.invalid) {
-        console.log('Formulario inválido:', this.clienteForm.errors);
-        Object.keys(this.clienteForm.controls).forEach(key => {
-          const control = this.clienteForm.get(key);
-          if (control?.invalid) {
-            console.log(`Campo inválido: ${key}, errores:`, control.errors);
-          }
-        });
-        return; //* Si el formulario es inválido, no proceder
-      }
-  
-      const datosCliente = this.mapFormToClientData(); //* Mapea el formulario a un objeto cliente
-      console.log('Datos a registrar:', datosCliente); //* Log para verificar qué datos se están enviando
-  
-      this.clienteService.registrarCliente(datosCliente).subscribe({
-        next: (res) => this.alert.success('¡Éxito!', 'Cliente registrado con éxito'), //* Alerta de éxito
-        error: (error) => {
-          console.error('Error al registrar:', error); //* Log del error en caso de fallo
-          this.alert.error('¡Error!', error.message); //* Alerta de error
+    if (this.clienteForm.invalid) {
+      console.log('Formulario inválido:', this.clienteForm.errors);
+      Object.keys(this.clienteForm.controls).forEach(key => {
+        const control = this.clienteForm.get(key);
+        if (control?.invalid) {
+          console.log(`Campo inválido: ${key}, errores:`, control.errors);
         }
       });
+      return; //* Si el formulario es inválido, no proceder
     }
-  
-    private esMayorDeEdad(fecha: string): boolean {
-      if (!fecha) return false;
-      const hoy = new Date();
-      const nacimiento = new Date(fecha);
-      let edad = hoy.getFullYear() - nacimiento.getFullYear();
-      const mes = hoy.getMonth() - nacimiento.getMonth();
-      if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-        edad--;
+
+    const datosCliente = this.mapFormToClientData(); //* Mapea el formulario a un objeto cliente
+    console.log('Datos a registrar:', datosCliente); //* Log para verificar qué datos se están enviando
+
+    this.clienteService.registrarCliente(datosCliente).subscribe({
+      next: (res) => this.alert.success('¡Éxito!', 'Cliente registrado con éxito'), //* Alerta de éxito
+      error: (error) => {
+        console.error('Error al registrar:', error); //* Log del error en caso de fallo
+        this.alert.error('¡Error!', error.message); //* Alerta de error
       }
-      return edad >= 18;
+    });
+  }
+
+  private esMayorDeEdad(fecha: string): boolean {
+    if (!fecha) return false;
+    const hoy = new Date();
+    const nacimiento = new Date(fecha);
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const mes = hoy.getMonth() - nacimiento.getMonth();
+    if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
+      edad--;
     }
-  
-    cargarComunas(event: Event): void {
-      const idRegion = Number((event.target as HTMLSelectElement).value); //* Obtener ID de región seleccionada
-      if (!idRegion || isNaN(idRegion)) {
-        this.comunas = []; //* Si no es válida, limpia las comunas
-        return;
-      }
-      this.clienteService.getComunasByRegion(idRegion).subscribe(data => this.comunas = data); //* Cargar comunas
+    return edad >= 18;
+  }
+
+  cargarComunas(event: Event): void {
+    const idRegion = Number((event.target as HTMLSelectElement).value); //* Obtener ID de región seleccionada
+    if (!idRegion || isNaN(idRegion)) {
+      this.comunas = []; //* Si no es válida, limpia las comunas
+      return;
     }
-  
-    estadoNotificacion(event: Event): void {
-      const notificacion = (event.target as HTMLInputElement).checked ? 2 : 1; //* Determinar estado de notificación
-      this.clienteForm.patchValue({ notificacion }); //* Actualizar valor en el formulario
-    }
+    this.clienteService.getComunasByRegion(idRegion).subscribe(data => this.comunas = data); //* Cargar comunas
+  }
+
+  estadoNotificacion(event: Event): void {
+    const notificacion = (event.target as HTMLInputElement).checked ? 2 : 1; //* Determinar estado de notificación
+    this.clienteForm.patchValue({ notificacion }); //* Actualizar valor en el formulario
+  }
 
   validarEdadMinima(edadMinima: number): ValidatorFn {
     return (control: AbstractControl) => {

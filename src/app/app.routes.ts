@@ -40,7 +40,7 @@ export const routes: Routes = [
   { path: 'perfil/mis-pedidos', component: MisPedidosComponent, title: 'Mis pedidos - Ferremas' },
   { path: 'perfil/mi-perfil', component: PerfilComponent, title: 'Mi perfil - Ferremas' },
 
-  // Rutas para Comprobante con hijos de resultados
+  // Rutas para comprobante con hijos de resultados
   { 
     path: 'comprobante', 
     component: ComprobantePagoComponent, 
