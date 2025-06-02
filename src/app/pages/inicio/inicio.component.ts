@@ -26,16 +26,16 @@ export class InicioComponent implements OnInit, OnDestroy {
   constructor(private marcasService: MarcasService, private productosService: ProductosService) {}
 
   images = [
-    { src: 'https://placehold.co/1920x500?text=Banner+1', alt: 'Banner 1' },
-    { src: 'https://placehold.co/1920x500?text=Banner+2', alt: 'Banner 2' },
-    { src: 'https://placehold.co/1920x500?text=Banner+3', alt: 'Banner 3' },
+    { src: 'https://i.imgur.com/b22csoZ.png', alt: 'Banner 1' },
+    { src: 'https://i.imgur.com/JhxR6ac.jpeg', alt: 'Banner 2' },
+    { src: 'https://i.imgur.com/QAsaPn1.jpeg', alt: 'Banner 3' },
   ];
 
   currentImageIndex = 0;
   autoSlideSubscription: Subscription = new Subscription();
 
   ngOnInit(): void {
-    this.autoSlideSubscription = interval(5000).subscribe(() => {
+    this.autoSlideSubscription = interval(10000).subscribe(() => {
       this.nextImage();
     });
 

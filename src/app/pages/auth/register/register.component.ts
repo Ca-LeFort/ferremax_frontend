@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { ClienteService } from '../../../services/cliente.service';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -66,7 +67,7 @@ export class RegisterComponent {
   generos: any[] = [];
   estCiviles: any[] = [];
 
-  constructor(private clienteService: ClienteService, private alert: AlertService) { }
+  constructor(private clienteService: ClienteService, private alert: AlertService, private router: Router) { }
 
   ngOnInit() {
     this.loadInitialData(); //* Cargar datos iniciales al iniciar el componente
@@ -100,10 +101,13 @@ export class RegisterComponent {
     console.log('Datos a registrar:', datosCliente); //* Log para verificar qué datos se están enviando
 
     this.clienteService.registrarCliente(datosCliente).subscribe({
-      next: () => this.alert.success('¡Éxito!', 'Has sido registrado, bienvenido a Ferremas'), //* Alerta de éxito
+      next: () => {
+        this.alert.success('¡Éxito!', 'Has sido registrado, bienvenido a Ferremas');
+        this.router.navigate(['/inicio']);
+      },
       error: (error) => {
-        console.error('Error al registrar:', error); //* Log del error en caso de fallo
-        this.alert.error('¡Error!', error.message); //* Alerta de error
+        console.error('Error al registrar:', error);
+        this.alert.error('¡Error!', error.message);
       }
     });
   }
@@ -130,7 +134,7 @@ export class RegisterComponent {
   }
 
   estadoNotificacion(event: Event): void {
-    const notificacion = (event.target as HTMLInputElement).checked ? 2 : 1; //* Determinar estado de notificación
+    const notificacion = (event.target as HTMLInputElement).checked ? 1 : 2; //* Determinar estado de notificación
     this.registerForm.patchValue({ notificacion }); //* Actualizar valor en el formulario
   }
 

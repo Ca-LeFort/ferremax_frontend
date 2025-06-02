@@ -24,19 +24,19 @@ export class ClienteService {
   }
 
   getRegiones() {
-    return this.http.get<{ Id: number; Nombre: string }[]>(`${this.apiTraduccion}/regiones`);
+    return this.http.get<any[]>(`${this.apiTraduccion}/regiones`);
   }
 
   getComunasByRegion(idRegion: number): Observable<any []> {
-    return this.http.get<{ Id: number; Nombre: string }[]>(`${this.apiTraduccion}/comunas/${idRegion}`);
+    return this.http.get<any[]>(`${this.apiTraduccion}/comunas/${idRegion}`);
   }
 
   getGeneros() {
-    return this.http.get<{ Id: number; Nombre: string }[]>(`${this.apiTraduccion}/generos`);
+    return this.http.get<any[]>(`${this.apiTraduccion}/generos`);
   }
 
   getEstCivil() {
-    return this.http.get<{ Id: number; Nombre: string }[]>(`${this.apiTraduccion}/estado-civil`);
+    return this.http.get<any[]>(`${this.apiTraduccion}/estado-civil`);
   }
 
   getClientes(): Observable<any[]> {
