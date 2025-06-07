@@ -10,5 +10,9 @@ import { RouterLink, RouterOutlet } from '@angular/router';
   styleUrl: './admin.component.css'
 })
 export class AdminComponent {
+  rolEmpleado: string | null = '';
 
+  ngOnInit() {
+    this.rolEmpleado = localStorage.getItem('rol'); // Rescatar el rol de un empleado en específico
+  }
 }

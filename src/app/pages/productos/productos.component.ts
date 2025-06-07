@@ -28,6 +28,13 @@ export class ProductosComponent implements OnInit {
     this.obtenerOCrearCarrito();
   }
 
+  esCliente(): boolean {
+    if (localStorage.getItem('rol') === 'cliente') {
+      return true;
+    }
+    return false;
+  }
+
   obtenerOCrearCarrito() {
     this.carritoService.obtenerCarritoActivo().subscribe({
     next: (carrito) => {

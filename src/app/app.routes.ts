@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './services/auth.guard';
+
+// Imports de rutas
 import { InicioComponent } from './pages/inicio/inicio.component';
 import { ProductosComponent } from './pages/productos/productos.component';
 import { AcercaDeComponent } from './pages/acerca-de/acerca-de.component';
@@ -10,7 +13,6 @@ import { ClienteComponent } from './pages/admin/cliente/cliente.component';
 import { EmpleadoComponent } from './pages/admin/empleado/empleado.component';
 import { PagoComponent } from './pages/admin/pago/pago.component';
 import { PedidoComponent } from './pages/admin/pedido/pedido.component';
-import { MensajeComponent } from './pages/admin/mensaje/mensaje.component';
 import { DashboardComponent } from './pages/admin/dashboard/dashboard.component';
 import { PasswordAdminComponent } from './pages/auth/password-admin/password-admin.component';
 import { CarritoComponent } from './pages/carrito/carrito.component';
@@ -34,11 +36,11 @@ export const routes: Routes = [
   { path: 'auth/login', component: LoginComponent, title: 'Iniciar sesión - Ferremas' },
   { path: 'auth/cambiar-password', component: PasswordAdminComponent, title: 'Cambiar contraseña - Ferremas' },
   { path: 'auth/register', component: RegisterComponent, title: 'Registrar - Ferremas'},
-  { path: 'carrito', component: CarritoComponent, title: 'Mi carrito - Ferremas' },
-  { path: 'pedido', component: PedidoComponentCliente, title: 'Proceso de Pedido - Ferremas' },
-  { path: 'pago', component: PagoComponentCliente, title: 'Resumen de Pago - Ferremas' },
-  { path: 'perfil/mis-pedidos', component: MisPedidosComponent, title: 'Mis pedidos - Ferremas' },
-  { path: 'perfil/mi-perfil', component: PerfilComponent, title: 'Mi perfil - Ferremas' },
+  { path: 'carrito', component: CarritoComponent, title: 'Mi carrito - Ferremas', canActivate: [AuthGuard], data: { roles: ['cliente']} },
+  { path: 'pedido', component: PedidoComponentCliente, title: 'Proceso de Pedido - Ferremas', canActivate: [AuthGuard], data: { roles: ['cliente']} },
+  { path: 'pago', component: PagoComponentCliente, title: 'Resumen de Pago - Ferremas', canActivate: [AuthGuard], data: { roles: ['cliente']} },
+  { path: 'perfil/mis-pedidos', component: MisPedidosComponent, title: 'Mis pedidos - Ferremas', canActivate: [AuthGuard], data: { roles: ['cliente']} },
+  { path: 'perfil/mi-perfil', component: PerfilComponent, title: 'Mi perfil - Ferremas', canActivate: [AuthGuard], data: { roles: ['cliente']} },
 
   // Rutas para comprobante con hijos de resultados
   { 
@@ -49,7 +51,8 @@ export const routes: Routes = [
       { path: 'rechazado', component: RechazadoComponent },
       { path: 'pendiente', component: PendienteComponent }
     ],
-    title: 'Comprobante - Ferremas' 
+    title: 'Comprobante - Ferremas', 
+    canActivate: [AuthGuard], data: { roles: ['cliente']}
   },
 
   // Ruta para Admin con rutas hijas
@@ -58,16 +61,16 @@ export const routes: Routes = [
     component: AdminComponent, // Este sería un componente que actúa como layout para las rutas hijas
     children: [
       { path: 'dashboard', component: DashboardComponent},
-      { path: 'cliente', component: ClienteComponent },
-      { path: 'cliente/crear', component: CrearClienteComponent },
-      { path: 'empleado', component: EmpleadoComponent },
-      { path: 'empleado/crear', component: CrearEmpleadoComponent },
-      { path: 'pago', component: PagoComponent },
-      { path: 'pedido', component: PedidoComponent },
-      { path: 'mensaje', component: MensajeComponent },
-      { path: 'reportes', component: ReportesComponent },
+      { path: 'cliente', component: ClienteComponent, canActivate: [AuthGuard], data: { roles: ['administrador']} },
+      { path: 'cliente/crear', component: CrearClienteComponent, canActivate: [AuthGuard], data: { roles: ['administrador']} },
+      { path: 'empleado', component: EmpleadoComponent, canActivate: [AuthGuard], data: { roles: ['administrador']} },
+      { path: 'empleado/crear', component: CrearEmpleadoComponent, canActivate: [AuthGuard], data: { roles: ['administrador']} },
+      { path: 'pago', component: PagoComponent, canActivate: [AuthGuard], data: { roles: ['administrador', 'contador']} },
+      { path: 'pedido', component: PedidoComponent, canActivate: [AuthGuard], data: { roles: ['administrador', 'encargado', 'bodeguero']} },
+      { path: 'reportes', component: ReportesComponent, canActivate: [AuthGuard], data: { roles: ['administrador', 'contador']} },
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }, // Redirigir a una ruta hija por defecto
     ],
+    canActivate: [AuthGuard], data: { roles: ['administrador', 'encargado', 'bodeguero', 'contador']}
   },
 
   { path: '', redirectTo: 'inicio', pathMatch: 'full' },

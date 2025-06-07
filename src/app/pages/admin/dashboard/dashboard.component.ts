@@ -7,6 +7,12 @@ import { Component } from '@angular/core';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+  rolEmpleado: string | null = '';
+
+  ngOnInit() {
+    this.rolEmpleado = localStorage.getItem('rol'); // Rescatar el rol de un empleado en específico
+  }
+
   irPedidos() {
     window.location.href = '/admin/pedido';
   }

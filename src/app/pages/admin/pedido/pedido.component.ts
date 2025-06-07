@@ -157,6 +157,9 @@ export class PedidoComponent implements OnInit {
 
   abrirModal(pedido: any) {
     this.pedidoSeleccionado = pedido;
+    this.estPedidoForm.patchValue({
+      estadoPedido: this.pedido.idEstPedido
+    });
     this.modalVisible = true;
   }
 

@@ -31,6 +31,10 @@ export class EmpleadoComponent implements OnInit {
     });
   }
 
+  irCrearEmpleado() {
+    window.location.href = '/admin/empleado/crear';
+  }
+
   obtenerEmpleados(): void {
     this.empleadoService.getEmpleados().subscribe({
         next: (data) => {
@@ -68,13 +72,6 @@ export class EmpleadoComponent implements OnInit {
     if (confirm('¿Estás seguro de que deseas eliminar este empleado?')) {
       this.deleteEmpleado(id);
     }
-  }
-
-  createEmpleado() {
-    this.empleadoService.createEmpleado(this.nuevoEmpleado).subscribe(() => {
-      this.ngOnInit();
-      this.nuevoEmpleado = { nombre: '', correo: '' };
-    });
   }
 
 }

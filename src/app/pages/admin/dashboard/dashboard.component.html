@@ -1,6 +1,6 @@
 <div class="p-6 bg-white rounded-lg shadow-lg max-w-lg mx-auto">
   <!-- Mensaje de bienvenida -->
-  <h1 class="text-2xl font-bold text-gray-800 mb-2">¡Bienvenido al Dashboard! 👋</h1>
+  <h1 class="text-2xl font-bold text-gray-800 mb-2">¡Bienvenido a la página de Administración de Ferremas! 👋</h1>
   <p class="text-gray-600">Aquí en esta página puedes realizar la administración del servicio.</p>
 
   <!-- Sección de información -->
@@ -13,21 +13,24 @@
   </ul>
 
   <!-- Botones de navegación -->
-  <h2 class="text-xl font-semibold text-gray-700 mt-6 mb-2">⚙ Acciones disponibles</h2>
+  <h2 class="text-xl font-semibold text-gray-700 mt-6 mb-2">⚙ Acciones disponibles según tu rol</h2>
   <div class="grid grid-cols-2 gap-4">
-    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded w-full"
-      (click)="irPedidos()">📦 Pedidos</button>
-
-    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded w-full"
-      (click)="irPagos()">💰 Pagos</button>
-
-    <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-3 px-4 rounded w-full"
+    @if (rolEmpleado === 'administrador') {
+    <button class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-3 px-4 rounded w-full col-span-2"
       (click)="irClientes()">👥 Clientes</button>
 
-    <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded w-full"
+    <button class="bg-purple-500 hover:bg-purple-700 text-white font-bold py-3 px-4 rounded w-full col-span-2"
       (click)="irEmpleados()">🧑‍💼 Empleados</button>
-
+    }
+    @if (rolEmpleado === 'administrador' || rolEmpleado === 'encargado' || rolEmpleado === 'bodeguero') {
+    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded w-full col-span-2"
+      (click)="irPedidos()">📦 Pedidos</button>
+    }
+    @if (rolEmpleado === 'administrador' || rolEmpleado === 'contador') {
+    <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-3 px-4 rounded w-full col-span-2"
+      (click)="irPagos()">💰 Pagos</button>
     <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-3 px-4 rounded w-full col-span-2"
       (click)="irReportes()">📊 Generar Reportes</button>
+    }
   </div>
 </div>
