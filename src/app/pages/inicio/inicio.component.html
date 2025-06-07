@@ -35,9 +35,11 @@
         <div class="p-4">
           <h3 class="text-sm font-medium mb-1 truncate">{{ producto.nombre }}</h3>
           <p class="text-xs font-bold text-gray-800 mb-2">${{ producto.precio }}</p>
-          <button class="w-full bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold py-1 px-2 rounded">
-            Agregar
-          </button>
+          @if (esCliente()) {
+            <button class="w-full bg-orange-500 hover:bg-orange-600 text-white text-xs font-semibold py-1 px-2 rounded">
+              Agregar
+            </button>
+          }
         </div>
       </div>
       } @empty {

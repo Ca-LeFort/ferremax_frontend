@@ -34,6 +34,13 @@ export class InicioComponent implements OnInit, OnDestroy {
   currentImageIndex = 0;
   autoSlideSubscription: Subscription = new Subscription();
 
+  esCliente(): boolean {
+    if (localStorage.getItem('rol') === 'cliente') {
+      return true;
+    }
+    return false;
+  }
+
   ngOnInit(): void {
     this.autoSlideSubscription = interval(10000).subscribe(() => {
       this.nextImage();
